@@ -28,14 +28,18 @@ public class jam {
         DiscordAPI api = Javacord.getApi("NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0", true);
         
         
+        
+        
         api.connect(new FutureCallback<DiscordAPI>() {
               public void onSuccess(final DiscordAPI api) {
-                  api.registerListener(new MessageCreateListener() {
+            	  api.registerListener(new MessageCreateListener() {
                       public void onMessageCreate(DiscordAPI api, Message message) {
                     	  
                     	  if(!ftimer.getWorkState()) {
                     		  ftimer.setMessage(message);
                     	  }
+                    	  
+                    	  
                     	  
                     	  
                     	  if(message.getAuthor().isBot()) return;
@@ -54,8 +58,8 @@ public class jam {
                         	  message.reply(message.getAuthor().getMentionTag() + " 하이임니다.");
                           
                       	  } else if(innermessage.equals("!신석샵")) {
-                        	  //parseSin parse = new parseSin();
-                        	  message.reply("준비중");
+                        	  ParseShinseok shinseok = new ParseShinseok();
+                        	  message.reply(shinseok.getList());
                           } else if(innermessage.startsWith("!시장")) {
                         	  Shop shop = new Shop(innermessage.substring(4));
                         	  message.reply(shop.getPrice());

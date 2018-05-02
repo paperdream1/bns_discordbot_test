@@ -13,19 +13,15 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class parseSin {
+public class ParseShinseok {
 	
 	Document doc;
 	int checker;
 	String result;
 	
-	public parseSin() {
+	public ParseShinseok() {
 		try {
-			doc = Jsoup.connect("http://bns.plaync.com").get();
-			
-			//Elements items = doc.select("div.wrapShinseok div");
-			
-			
+			doc = Jsoup.connect("http://bns.plaync.com/login/displayItemList").get();
 			
 			/*********
 			URL url = new URL("http://a.bns.plaync.com/bnsapi/main/shop/displaygoods");
@@ -60,11 +56,22 @@ public class parseSin {
 		}
 	}
 	
-	public String getSin() {
+	public String getList() {
 		
 		if(checker == 0) {
 			return "";
 		}
+		result = "";
+		
+		Elements itemNames = doc.select("li h3");
+		Elements itemPrices = doc.select("li span.shinseok em");
+		
+		for(int i=0; i<itemNames.size(); i++) {
+			result += itemNames.get(i).text() + "\t\t " + (int)Double.parseDouble(itemPrices.get(i).text()) + " 신석\n";
+		}
+		
+		
+		
 
 		return result;
 		/*
