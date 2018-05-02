@@ -54,10 +54,8 @@ public class jam {
                         	  message.reply(message.getAuthor().getMentionTag() + " 하이임니다.");
                           
                       	  } else if(innermessage.equals("!신석샵")) {
-                        	  parseSin parse = new parseSin();
-                        	  //parse.getSin();
-                        	  //message.reply(parse.getSin());
-                        	 message.reply("준비중");
+                        	  //parseSin parse = new parseSin();
+                        	  message.reply("준비중");
                           } else if(innermessage.startsWith("!시장")) {
                         	  Shop shop = new Shop(innermessage.substring(4));
                         	  message.reply(shop.getPrice());
@@ -78,7 +76,7 @@ public class jam {
                         	  int num = Integer.parseInt(toc.nextToken());
                         	  int price = Integer.parseInt(toc.nextToken());
                         	  
-                        	  message.reply(((int)(double)price/num*(num-1)) + " 금");
+                        	  message.reply(((int)(double)price/num*(num-1)) + " 금 " + "1인당 " + (int)(double)price/num + " 금");
                           } else if(innermessage.equals("!재료")) {
                         	  String resultMessage = "영석\t " + new Shop("영석").getMinPrice() +
                         			  "월석\t" + new Shop("월석").getMinPrice() +

@@ -21,7 +21,13 @@ public class parseSin {
 	
 	public parseSin() {
 		try {
-			//doc = Jsoup.connect("http://a.bns.plaync.com/bnsapi/main/shop/displaygoods").get();
+			doc = Jsoup.connect("http://bns.plaync.com").get();
+			
+			//Elements items = doc.select("div.wrapShinseok div");
+			
+			
+			
+			/*********
 			URL url = new URL("http://a.bns.plaync.com/bnsapi/main/shop/displaygoods");
 			URLConnection urlConnection = url.openConnection();
 			HttpURLConnection httpurlConnection = (HttpURLConnection) urlConnection;
@@ -43,6 +49,7 @@ public class parseSin {
 			}
 
 			result = builder.toString();
+			***************/
 			
 			
 			checker = 1;
