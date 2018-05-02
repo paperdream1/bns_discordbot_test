@@ -20,14 +20,28 @@ public class jam {
     			11, 35, 20, 3, 3, 2, 6, 6
     	};
     	
+    	final FTimer ftimer = new FTimer();
+    	
+    	
+    	
+    	
         DiscordAPI api = Javacord.getApi("NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0", true);
+        
         
         api.connect(new FutureCallback<DiscordAPI>() {
               public void onSuccess(final DiscordAPI api) {
                   api.registerListener(new MessageCreateListener() {
                       public void onMessageCreate(DiscordAPI api, Message message) {
                     	  
+                    	  if(!ftimer.getWorkState()) {
+                    		  ftimer.setMessage(message);
+                    	  }
+                    	  
+                    	  
+                    	  if(message.getAuthor().isBot()) return;
                     	  String innermessage = message.getContent();
+                    	  
+                    	  
                           
                     	  if(innermessage.equals("!help")){
                               message.reply(
