@@ -26,12 +26,25 @@ public class jam {
     			11, 35, 20, 3, 3, 2, 6, 6
     	};
     	
+    	final String TOKEN_BOT = "NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0";
+    	
+    	final String HELP_MESSAGE = "\n블소 한국서버 도우미 봇"
+      		  + "\n!시장 물품이름 : 물품이름으로 시장검색"
+      		  + "\n!시장! 물품이름 : 물품이름으로 시장검색(검색어 일치)"
+      		  + "\n!신석샵 : 신석샵 오늘의 상품"
+      		  + "\n!제작 : 주요 제작 물품 제작비, 수익 비교"
+      		  + "\n!분배 파티인원 가격 : 분배금 계산"
+      		  + "\n!재료 : 주요 제작재료 가격 검색"
+      		  + "\n!help를 입력하면 다시 볼 수 있습니다";
+    	
+    	
+    	
     	final FTimer ftimer = new FTimer();
     	
     	
     	
     	
-        DiscordAPI api = Javacord.getApi("NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0", true);
+        DiscordAPI api = Javacord.getApi(TOKEN_BOT, true);
         
         
         api.registerListener(new ServerJoinListener(){
@@ -46,7 +59,7 @@ public class jam {
 				
 				
 				for(Channel in : channels) {
-					in.sendMessage("join");
+					in.sendMessage(HELP_MESSAGE);
 				}
 			
 				
@@ -54,16 +67,7 @@ public class jam {
         	
         	
         });
-        
-        api.registerListener(new ChannelCreateListener() {
-
-			@Override
-			public void onChannelCreate(DiscordAPI arg0, Channel arg1) {
-				// TODO Auto-generated method stub
-				arg1.sendMessage("create");
-			}
-        	
-        });
+       
         
         api.connect(new FutureCallback<DiscordAPI>() {
               public void onSuccess(final DiscordAPI api) {
@@ -79,8 +83,7 @@ public class jam {
                     	  
                           
                     	  if(innermessage.equals("!help")){
-                              message.reply(
-                            		  "\n블소 도우미 봇\n!시장 물품이름\n!신석샵\n!제작\n!분배 파티인원 가격\n!재료\n");
+                              message.reply(HELP_MESSAGE);
                           } else if(innermessage.contains("린녀쟝")){
                         	  message.reply("기여어");
                           } else if(innermessage.equals("하이임니다") || innermessage.equals("하이입니다") ||innermessage.equals("하임다") ||
@@ -91,13 +94,16 @@ public class jam {
                       	  } else if(innermessage.equals("!신석샵")) {
                         	  ParseShinseok shinseok = new ParseShinseok();
                         	  message.reply(shinseok.getList());
+                          } else if(innermessage.startsWith("!시장!")) {
+                        	  Shop shop = new Shop(innermessage.substring(5), true);
+                        	  message.reply(shop.getPrice());
                           } else if(innermessage.startsWith("!시장")) {
-                        	  Shop shop = new Shop(innermessage.substring(4));
+                        	  Shop shop = new Shop(innermessage.substring(4), true);
                         	  message.reply(shop.getPrice());
                           } else if(innermessage.equals("!제작")) {
                         	  String resultMessage = "";
-                        	  Making making = new Making(priceToDouble(new Shop("영석").getMinPrice()), priceToDouble(new Shop("월석").getMinPrice()),
-                        			 priceToDouble(new Shop("영단").getMinPrice()), priceToDouble(new Shop("선단").getMinPrice()));
+                        	  Making making = new Making(priceToDouble(new Shop("영석", false).getMinPrice()), priceToDouble(new Shop("월석", false).getMinPrice()),
+                        			 priceToDouble(new Shop("영단", false).getMinPrice()), priceToDouble(new Shop("선단", false).getMinPrice()));
                         	  for(int i=0 ; i<COUNT.length; i++) {
                         		 resultMessage += calMakingProfit(makingItemNames[i], making.findMakingItemCost(makingItemNames[i]), COUNT[i]) + "\n";
                         	  }
@@ -111,12 +117,12 @@ public class jam {
                         	  int num = Integer.parseInt(toc.nextToken());
                         	  int price = Integer.parseInt(toc.nextToken());
                         	  
-                        	  message.reply(((int)(double)price/num*(num-1)) + " 금 " + "1인당 " + (int)(double)price/num + " 금");
+                        	  message.reply("최대입찰가 : "+ ((int)(double)price/num*(num-1)) + " 금 " + "분배금 : 1인당 " + (int)(double)price/num + " 금");
                           } else if(innermessage.equals("!재료")) {
-                        	  String resultMessage = "영석\t " + new Shop("영석").getMinPrice() +
-                        			  "월석\t" + new Shop("월석").getMinPrice() +
-                        			  "영단\t" + new Shop("영단").getMinPrice() + 
-                        			  "선단\t" + new Shop("선단").getMinPrice() ;
+                        	  String resultMessage = "영석\t " + new Shop("영석", false).getMinPrice() +
+                        			  "월석\t" + new Shop("월석", false).getMinPrice() +
+                        			  "영단\t" + new Shop("영단", false).getMinPrice() + 
+                        			  "선단\t" + new Shop("선단", false).getMinPrice() ;
                         	  message.reply(resultMessage);
                           }
                     	  
@@ -136,7 +142,7 @@ public class jam {
     }
     
     static private String calMakingProfit(String item, double price, int count) {
-    	double itemPrice = priceToDouble(new Shop(item).getMinPrice()) * count;
+    	double itemPrice = priceToDouble(new Shop(item, false).getMinPrice()) * count;
     	String result = item + "\t\t시장가 : " + (int)itemPrice + " 금\t제작비 : " + (int)price + " 금\t수익 : " + (calFee(itemPrice) - (int)price) + " 금";
     	return result;
     }

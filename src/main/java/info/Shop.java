@@ -10,7 +10,8 @@ import org.jsoup.select.Elements;
 
 public class Shop {
 	
-	String URL_SHOP = "http://bns.plaync.com/bs/market/search?ct=0-0&level=0-0&stepper=&exact=&sort=default-asc&type=INVALID&grade=0&prevq=&q=";
+	String URL_SHOP_HEAD = "http://bns.plaync.com/bs/market/search?ct=0-0&level=0-0&stepper=&exact=";
+	String URL_SHOP_TAIL = "&sort=default-asc&type=INVALID&grade=0&prevq=&q=";
 	Document doc;
 	
 	int checker;
@@ -18,9 +19,9 @@ public class Shop {
 	ArrayList<ShopItem> itemList;
 	
 	
-	public Shop(String item) {
+	public Shop(String item, boolean exact) {
 		try {
-			doc = Jsoup.connect(URL_SHOP + item).get();
+			doc = Jsoup.connect(URL_SHOP_HEAD + (exact ? "1" : "") + URL_SHOP_TAIL + item).get();
 			checker = 1;
 			itemList = new ArrayList();
 			
@@ -33,6 +34,7 @@ public class Shop {
 		
 		
 	}
+	
 	
 	public String getPrice() {
 		
