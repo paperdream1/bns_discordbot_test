@@ -1,13 +1,19 @@
 package info;
 
+import java.util.Collection;
 import java.util.StringTokenizer;
 
 import com.google.common.util.concurrent.FutureCallback;
 
 import de.btobastian.javacord.DiscordAPI;
 import de.btobastian.javacord.Javacord;
+import de.btobastian.javacord.entities.Channel;
+import de.btobastian.javacord.entities.Server;
 import de.btobastian.javacord.entities.message.Message;
+import de.btobastian.javacord.listener.Listener;
+import de.btobastian.javacord.listener.channel.*;
 import de.btobastian.javacord.listener.message.MessageCreateListener;
+import de.btobastian.javacord.listener.server.ServerJoinListener;
  
 public class jam {
     static public void main(String args[]){
@@ -28,17 +34,42 @@ public class jam {
         DiscordAPI api = Javacord.getApi("NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0", true);
         
         
+        api.registerListener(new ServerJoinListener(){
+
+			@Override
+			public void onServerJoin(DiscordAPI arg0, Server arg1) {
+				// TODO Auto-generated method stub
+				
+				Collection<Channel> channels = arg1.getChannels();
+				
+				ftimer.setChannels(channels);
+				
+				
+				for(Channel in : channels) {
+					in.sendMessage("join");
+				}
+			
+				
+			}
+        	
+        	
+        });
         
+        api.registerListener(new ChannelCreateListener() {
+
+			@Override
+			public void onChannelCreate(DiscordAPI arg0, Channel arg1) {
+				// TODO Auto-generated method stub
+				arg1.sendMessage("create");
+			}
+        	
+        });
         
         api.connect(new FutureCallback<DiscordAPI>() {
               public void onSuccess(final DiscordAPI api) {
             	  api.registerListener(new MessageCreateListener() {
                       public void onMessageCreate(DiscordAPI api, Message message) {
-                    	  
-                    	  if(!ftimer.getWorkState()) {
-                    		  ftimer.setMessage(message);
-                    	  }
-                    	  
+
                     	  
                     	  
                     	  

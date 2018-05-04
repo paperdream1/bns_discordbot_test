@@ -1,16 +1,19 @@
 package info;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import de.btobastian.javacord.entities.Channel;
 import de.btobastian.javacord.entities.message.Message;
 
 public class FTimer {
 	
 	Message message;
+	Collection<Channel> channels;
 	Date time;
-	boolean workState = false;
 	
 	final String MESSAGE_10MIN = "화룡 10분전";
 	final String MESSAGE_5MIN = "화룡 5분전";
@@ -23,13 +26,23 @@ public class FTimer {
 	};
 	
 	public FTimer() {
-		
+		startTimer();
+		channels = new ArrayList<Channel>();
 	}
+	
+	public void setChannels(Collection<Channel> channels) {
+		//this.channels = channels;
+		this.channels.addAll(channels);
+	}
+
 	
 	
 	public void setMessage(Message message) {
 		this.message = message;
 		
+	}
+	
+	public void startTimer() {
 		Timer timer = new Timer(false);
 		TimerTask task = new TimerTask() {
 
@@ -49,9 +62,6 @@ public class FTimer {
 		};
 		
 		timer.schedule(task, 1000, 1000);//1 second
-		workState = true;
-		
-		
 	}
 	
 	
@@ -65,30 +75,54 @@ public class FTimer {
 				
 				switch(time.getMinutes()){
 					case 50 :
-						message.reply(MESSAGE_10MIN);
+						//message.reply(MESSAGE_10MIN);
+						for(Channel channel : channels) {
+							channel.sendMessage(MESSAGE_10MIN);
+						}
 						Thread.sleep(60000);//sleep 1min
 						break;
 					case 55 :
-						message.reply(MESSAGE_5MIN);
+						//message.reply(MESSAGE_5MIN);
+						for(Channel channel : channels) {
+							channel.sendMessage(MESSAGE_5MIN);
+						}
 						Thread.sleep(60000);//sleep 1min
 						break;
 					case 59 :
-						message.reply(MESSAGE_1MIN);
+						//message.reply(MESSAGE_1MIN);
+						for(Channel channel : channels) {
+							channel.sendMessage(MESSAGE_1MIN);
+						}
 						Thread.sleep(60000);//sleep 1min
 						break;
 						
+					/*******************
+					 * test cell start *
+					 *******************
+					default:
+						for(Channel channel : channels) {
+							channel.sendMessage(MESSAGE_1MIN);
+						}
+						System.out.println("여긴온다" + channels.size());
+						Thread.sleep(60000);//sleep 1min
+						break;
+						
+					*******************
+					*   test cell end  *
+					*******************/
+						
 					
 				}
-			} else if(time.getTime() == ntime && time.getMinutes() == 0) {
-				message.reply(MESSAGE_0MIN);
+			} else if(time.getHours() == ntime && time.getMinutes() == 0) {
+				//message.reply(MESSAGE_0MIN);
+				for(Channel channel : channels) {
+					channel.sendMessage(MESSAGE_0MIN);
+				}
 				Thread.sleep(60000);//sleep 1min
 			}
 		}
 	}
 	
-	public boolean getWorkState() {
-		return workState;
-	}
 	
 	
 
