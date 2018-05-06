@@ -98,7 +98,7 @@ public class jam {
                         	  Shop shop = new Shop(innermessage.substring(5), true);
                         	  message.reply(shop.getPrice());
                           } else if(innermessage.startsWith("!시장")) {
-                        	  Shop shop = new Shop(innermessage.substring(4), true);
+                        	  Shop shop = new Shop(innermessage.substring(4), false);
                         	  message.reply(shop.getPrice());
                           } else if(innermessage.equals("!제작")) {
                         	  String resultMessage = "";
