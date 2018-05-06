@@ -42,6 +42,10 @@ public class FTimer {
 	public void delChannel(Channel channel) {
 		this.channels.remove(channel);
 	}
+	
+	public boolean isExistChannel(Channel channel) {
+		return this.channels.contains(channel);
+	}
 
 	
 	

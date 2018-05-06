@@ -127,10 +127,12 @@ public class jam {
                         			  "선단\t" + new Shop("선단", false).getMinPrice() ;
                         	  message.reply(resultMessage);
                           } else if(innermessage.startsWith("!화룡타이머")) {
-                        	  if(innermessage.substring(7).contains("on")) {
+                        	  if(!ftimer.isExistChannel(message.getChannelReceiver()) && innermessage.substring(7).contains("on")) {
                         		  ftimer.addChannel(message.getChannelReceiver());
-                        	  } else if(innermessage.substring(7).contains("off")) {
+                        		  message.reply("활성화");
+                        	  } else if(ftimer.isExistChannel(message.getChannelReceiver()) &&innermessage.substring(7).contains("off")) {
                         		  ftimer.delChannel(message.getChannelReceiver());
+                        		  message.reply("비활성화");
                         	  }
                           }
                     	  
