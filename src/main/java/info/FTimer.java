@@ -34,6 +34,14 @@ public class FTimer {
 		//this.channels = channels;
 		this.channels.addAll(channels);
 	}
+	
+	public void addChannel(Channel channel) {
+		this.channels.add(channel);
+	}
+	
+	public void delChannel(Channel channel) {
+		this.channels.remove(channel);
+	}
 
 	
 	

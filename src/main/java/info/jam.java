@@ -35,6 +35,7 @@ public class jam {
       		  + "\n!제작 : 주요 제작 물품 제작비, 수익 비교"
       		  + "\n!분배 파티인원 가격 : 분배금 계산"
       		  + "\n!재료 : 주요 제작재료 가격 검색"
+      		  + "\n!화룡타이머 on/off : 화룡타이머 활성화/비활성화"
       		  + "\n!help를 입력하면 다시 볼 수 있습니다";
     	
     	
@@ -52,7 +53,7 @@ public class jam {
 			@Override
 			public void onServerJoin(DiscordAPI arg0, Server arg1) {
 				// TODO Auto-generated method stub
-				
+				/*
 				Collection<Channel> channels = arg1.getChannels();
 				
 				ftimer.setChannels(channels);
@@ -62,6 +63,7 @@ public class jam {
 					in.sendMessage(HELP_MESSAGE);
 				}
 			
+				*/
 				
 			}
         	
@@ -84,7 +86,7 @@ public class jam {
                           
                     	  if(innermessage.equals("!help")){
                               message.reply(HELP_MESSAGE);
-                          } else if(innermessage.contains("린녀쟝")){
+                          } else if(innermessage.equals("린녀쟝")){
                         	  message.reply("기여어");
                           } else if(innermessage.equals("하이임니다") || innermessage.equals("하이입니다") ||innermessage.equals("하임다") ||
                         		  innermessage.equals("하이") ||innermessage.equals("하이하이") || innermessage.equals("안녕하세요")) {
@@ -124,6 +126,12 @@ public class jam {
                         			  "영단\t" + new Shop("영단", false).getMinPrice() + 
                         			  "선단\t" + new Shop("선단", false).getMinPrice() ;
                         	  message.reply(resultMessage);
+                          } else if(innermessage.startsWith("!화룡타이머")) {
+                        	  if(innermessage.substring(7).contains("on")) {
+                        		  ftimer.addChannel(message.getChannelReceiver());
+                        	  } else if(innermessage.substring(7).contains("off")) {
+                        		  ftimer.delChannel(message.getChannelReceiver());
+                        	  }
                           }
                     	  
                           
