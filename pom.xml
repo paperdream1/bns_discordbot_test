@@ -3,7 +3,7 @@
 <properties>
     <deploy.target.dir>DiscordBot</deploy.target.dir>
     <lib.dir>lib</lib.dir>
-    <jar.name>bot</jar.name>
+    <jar.name>bot_0.0.7</jar.name>
 </properties>
 
 
@@ -11,7 +11,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>info</groupId>
   <artifactId>info</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.7</version>
 
 <build>
 <plugins>

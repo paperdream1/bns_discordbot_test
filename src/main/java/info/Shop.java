@@ -16,33 +16,49 @@ public class Shop {
 	
 	int checker;
 	String result;
-	ArrayList<ShopItem> itemList;
 	
+	
+	public Shop() {
+		
+	}
 	
 	public Shop(String item, boolean exact) {
 		try {
+			//블소 시장페이지에 연결
 			doc = Jsoup.connect(URL_SHOP_HEAD + (exact ? "1" : "") + URL_SHOP_TAIL + item).get();
-			checker = 1;
-			itemList = new ArrayList();
+			checker = 1;//연결성공하면 체커 1
 			
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			checker = 0;
+			checker = 0;//연결실패하면 체커 0
 			e.printStackTrace();
 		}
-		
-		
 	}
 	
+	public void searchItem(String item, boolean exact) {
+		try {
+			//블소 시장페이지에 연결
+			doc = Jsoup.connect(URL_SHOP_HEAD + (exact ? "1" : "") + URL_SHOP_TAIL + item).get();
+			checker = 1;//연결성공하면 체커 1
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			checker = 0;//연결실패하면 체커 0
+			e.printStackTrace();
+		}
+	}
 	
+	//시장물품 반환
 	public String getPrice() {
 		
 		if(checker == 0) {
+			//연결 실패시
 			result = "검색 결과가 없습니다";
 		} else {
-
-			Elements items = doc.select("td.price");
+			//연결 성공시
+			Elements items = doc.select("td.price");//물품 관련 요소 추출
 			if(items.isEmpty()) {
 				result = "검색 결과가 없습니다";
 			} else {
@@ -68,6 +84,7 @@ public class Shop {
 		
 	}
 	
+	//최저가 반환
 	public String getMinPrice() {
 		
 		if(checker == 0) {

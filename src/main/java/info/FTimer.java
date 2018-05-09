@@ -20,12 +20,18 @@ public class FTimer {
 	final String MESSAGE_1MIN = "화룡 1분전";
 	final String MESSAGE_0MIN = "화룡탐";
 	
+	/**************
+	 * 화룡 시간 정의
+	 * FTIME[0] : 금토일시간표
+	 * FTIME[1] : 평일시간
+	 */
 	final int[][] FTIME = {
 			{1, 13, 16, 19, 22},
 			{1, 19, 22}
 	};
 	
 	public FTimer() {
+		//타이머시작
 		startTimer();
 		channels = new ArrayList<Channel>();
 	}
@@ -79,6 +85,8 @@ public class FTimer {
 	
 	private void checkFTime() throws InterruptedException {
 		time = new Date();
+		
+		//금토일인지 판단
 		int[] HOUR = FTIME[((time.getDay()+1)%6 <= 1 )? 0 : 1];
 		
 		
@@ -87,21 +95,18 @@ public class FTimer {
 				
 				switch(time.getMinutes()){
 					case 50 :
-						//message.reply(MESSAGE_10MIN);
 						for(Channel channel : channels) {
 							channel.sendMessage(MESSAGE_10MIN);
 						}
 						Thread.sleep(60000);//sleep 1min
 						break;
 					case 55 :
-						//message.reply(MESSAGE_5MIN);
 						for(Channel channel : channels) {
 							channel.sendMessage(MESSAGE_5MIN);
 						}
 						Thread.sleep(60000);//sleep 1min
 						break;
 					case 59 :
-						//message.reply(MESSAGE_1MIN);
 						for(Channel channel : channels) {
 							channel.sendMessage(MESSAGE_1MIN);
 						}
@@ -126,7 +131,6 @@ public class FTimer {
 					
 				}
 			} else if(time.getHours() == ntime && time.getMinutes() == 0) {
-				//message.reply(MESSAGE_0MIN);
 				for(Channel channel : channels) {
 					channel.sendMessage(MESSAGE_0MIN);
 				}

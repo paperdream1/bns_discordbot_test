@@ -39,31 +39,33 @@ public class jam {
       		  + "\n!help를 입력하면 다시 볼 수 있습니다";
     	
     	
-    	
+    	//화룡타이머 선언
     	final FTimer ftimer = new FTimer();
+ 
+    	final Making making = new Making();
+    	
+    	final Shop shop = new Shop();
     	
     	
     	
     	
         DiscordAPI api = Javacord.getApi(TOKEN_BOT, true);
         
-        
+        //봇이 초되되엇을 때 동작 정의
         api.registerListener(new ServerJoinListener(){
 
 			@Override
 			public void onServerJoin(DiscordAPI arg0, Server arg1) {
 				// TODO Auto-generated method stub
-				/*
+				
 				Collection<Channel> channels = arg1.getChannels();
-				
-				ftimer.setChannels(channels);
-				
+							
 				
 				for(Channel in : channels) {
 					in.sendMessage(HELP_MESSAGE);
 				}
 			
-				*/
+				
 				
 			}
         	
@@ -75,7 +77,7 @@ public class jam {
               public void onSuccess(final DiscordAPI api) {
             	  api.registerListener(new MessageCreateListener() {
                       public void onMessageCreate(DiscordAPI api, Message message) {
-
+                    	  //메세지가 들어왓을 때 동작 설정
                     	  
                     	  
                     	  
@@ -97,15 +99,15 @@ public class jam {
                         	  ParseShinseok shinseok = new ParseShinseok();
                         	  message.reply(shinseok.getList());
                           } else if(innermessage.startsWith("!시장!")) {
-                        	  Shop shop = new Shop(innermessage.substring(5), true);
+                        	  shop.searchItem(innermessage.substring(5), true);
                         	  message.reply(shop.getPrice());
                           } else if(innermessage.startsWith("!시장")) {
-                        	  Shop shop = new Shop(innermessage.substring(4), false);
+                        	  shop.searchItem(innermessage.substring(4), false);
                         	  message.reply(shop.getPrice());
                           } else if(innermessage.equals("!제작")) {
                         	  String resultMessage = "";
-                        	  Making making = new Making(priceToDouble(new Shop("영석", false).getMinPrice()), priceToDouble(new Shop("월석", false).getMinPrice()),
-                        			 priceToDouble(new Shop("영단", false).getMinPrice()), priceToDouble(new Shop("선단", false).getMinPrice()));
+                        	  making.refreshCost();
+                        	  
                         	  for(int i=0 ; i<COUNT.length; i++) {
                         		 resultMessage += calMakingProfit(makingItemNames[i], making.findMakingItemCost(makingItemNames[i]), COUNT[i]) + "\n";
                         	  }
@@ -121,10 +123,15 @@ public class jam {
                         	  
                         	  message.reply("최대입찰가 : "+ ((int)(double)price/num*(num-1)) + " 금 " + "분배금 : 1인당 " + (int)(double)price/num + " 금");
                           } else if(innermessage.equals("!재료")) {
-                        	  String resultMessage = "영석\t " + new Shop("영석", false).getMinPrice() +
-                        			  "월석\t" + new Shop("월석", false).getMinPrice() +
-                        			  "영단\t" + new Shop("영단", false).getMinPrice() + 
-                        			  "선단\t" + new Shop("선단", false).getMinPrice() ;
+                        	  String resultMessage = "";
+                        	  shop.searchItem("영석", false);
+                        	  resultMessage += "영석\t" + shop.getMinPrice();
+                        	  shop.searchItem("월석", false);
+                        	  resultMessage += "월석\t" + shop.getMinPrice();
+                        	  shop.searchItem("영단", false);
+                        	  resultMessage += "영단\t" + shop.getMinPrice();
+                        	  shop.searchItem("선단", false);
+                        	  resultMessage += "선단\t" + shop.getMinPrice() ;
                         	  message.reply(resultMessage);
                           } else if(innermessage.startsWith("!화룡타이머")) {
                         	  if(!ftimer.isExistChannel(message.getChannelReceiver()) && innermessage.substring(7).contains("on")) {
@@ -134,6 +141,9 @@ public class jam {
                         		  ftimer.delChannel(message.getChannelReceiver());
                         		  message.reply("비활성화");
                         	  }
+                          } else if(innermessage.startsWith("!!!")){
+                        	  message.getChannelReceiver().sendMessage(message.getAuthor().getName() + " "
+                          + innermessage.replaceAll("!", ""), true);
                           }
                     	  
                           
@@ -147,25 +157,42 @@ public class jam {
             });
     }
     
-    static private double priceToDouble(String price) {
+    //시장에서 파싱해온 가격을 double로 변환
+    static public double priceToDouble(String price) {
     	return Double.parseDouble(price.replaceAll(" 금",".").replaceAll(" 은","").replaceAll(" 동","").replaceAll(",", ""));
     }
     
+    //제작 아이템 수익 계산
     static private String calMakingProfit(String item, double price, int count) {
-    	double itemPrice = priceToDouble(new Shop(item, false).getMinPrice()) * count;
-    	String result = item + "\t\t시장가 : " + (int)itemPrice + " 금\t제작비 : " + (int)price + " 금\t수익 : " + (calFee(itemPrice) - (int)price) + " 금";
+    	
+    	double itemPrice = priceToDouble(new Shop(item, false).getMinPrice());
+    	double itemsPrice = itemPrice * count;
+    	String result = item + "\t\t시장가 : " + (int)itemsPrice + " 금\t제작비 : "
+    	+ (int)price + " 금\t수익 : " + (calFee(itemPrice) * count - (int)price) + " 금";
     	return result;
     }
     
+    //물품 수수료 계산
     private static int calFee(double price) {
-    	if(price < 1000) {
+    	if(price < 100) {
+    		return (int)(price*0.95);
+    	} else if(price >=100 && price <1000) {
     		return (int)(price*0.94);
-    	} else if(price >=1000 && price <10000) {
-    		return (int)(price*0.92);
-    	} else if(price >= 10000 && price < 50000) {
-    		return (int)(price*0.90);
+    	} else if(price >= 1000 && price < 10000) {
+    		return (int)(price*0.93);
     	} else {
-    		return (int)(price*0.89);
+    		return (int)(price*0.92);
+    	}
+    }
+    
+    //일거래 수수료 계산
+    private static int calDailyFee(double allPrice) {
+    	if(allPrice >= 1000 && allPrice < 10000) {
+    		return (int)(allPrice * 0.01);
+    	} else if(allPrice >= 10000 && allPrice < 50000) {
+    		return (int)(allPrice * 0.02);
+    	} else {
+    		return (int)(allPrice * 0.03);
     	}
     }
 }
