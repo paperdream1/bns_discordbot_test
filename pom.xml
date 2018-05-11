@@ -3,7 +3,7 @@
 <properties>
     <deploy.target.dir>DiscordBot</deploy.target.dir>
     <lib.dir>lib</lib.dir>
-    <jar.name>bot_0.0.7</jar.name>
+    <jar.name>bot_0.0.8</jar.name>
 </properties>
 
 
@@ -11,7 +11,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>info</groupId>
   <artifactId>info</artifactId>
-  <version>0.0.7</version>
+  <version>0.0.8</version>
 
 <build>
 <plugins>
@@ -91,6 +91,11 @@
   		<artifactId>jsoup</artifactId>
   		<version>1.11.3</version>
 	</dependency>
+	<dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.21.0.1</version>
+    </dependency>
 	<dependency>
 
     <groupId>net.sf.json-lib</groupId>

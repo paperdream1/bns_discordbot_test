@@ -14,6 +14,7 @@ public class FTimer {
 	Message message;
 	Collection<Channel> channels;
 	Date time;
+	BotDB botdb = null;
 	
 	final String MESSAGE_10MIN = "화룡 10분전";
 	final String MESSAGE_5MIN = "화룡 5분전";
@@ -32,8 +33,18 @@ public class FTimer {
 	
 	public FTimer() {
 		//타이머시작
+		botdb = new BotDB();
+		channels = new ArrayList();
 		startTimer();
-		channels = new ArrayList<Channel>();
+	}
+	
+	public void getChannelsFromDB() {
+		ArrayList<String> db_channels = botdb.getFTimerIdfromDB();
+		
+		for(String ch_id : db_channels) {
+			channels.add(jam.getChannelById(ch_id));
+		}
+		
 	}
 	
 	public void setChannels(Collection<Channel> channels) {
@@ -42,10 +53,12 @@ public class FTimer {
 	}
 	
 	public void addChannel(Channel channel) {
+		botdb.addFTimerId(channel.getId());
 		this.channels.add(channel);
 	}
 	
 	public void delChannel(Channel channel) {
+		botdb.delFTimerId(channel.getId());
 		this.channels.remove(channel);
 	}
 	

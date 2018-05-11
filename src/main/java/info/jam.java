@@ -16,6 +16,9 @@ import de.btobastian.javacord.listener.message.MessageCreateListener;
 import de.btobastian.javacord.listener.server.ServerJoinListener;
  
 public class jam {
+	
+	static DiscordAPI api = null;
+	
     static public void main(String args[]){
     	
     	
@@ -39,6 +42,8 @@ public class jam {
       		  + "\n!help를 입력하면 다시 볼 수 있습니다";
     	
     	
+    	api = Javacord.getApi(TOKEN_BOT, true);
+    	
     	//화룡타이머 선언
     	final FTimer ftimer = new FTimer();
  
@@ -49,7 +54,7 @@ public class jam {
     	
     	
     	
-        DiscordAPI api = Javacord.getApi(TOKEN_BOT, true);
+        
         
         //봇이 초되되엇을 때 동작 정의
         api.registerListener(new ServerJoinListener(){
@@ -74,10 +79,15 @@ public class jam {
        
         
         api.connect(new FutureCallback<DiscordAPI>() {
+        	
               public void onSuccess(final DiscordAPI api) {
+            	  
+              	ftimer.getChannelsFromDB();
+
             	  api.registerListener(new MessageCreateListener() {
                       public void onMessageCreate(DiscordAPI api, Message message) {
                     	  //메세지가 들어왓을 때 동작 설정
+                    	  
                     	  
                     	  
                     	  
@@ -160,6 +170,10 @@ public class jam {
                 t.printStackTrace();
               }
             });
+        
+
+        
+        
     }
     
     //시장에서 파싱해온 가격을 double로 변환
@@ -199,6 +213,11 @@ public class jam {
     	} else {
     		return (int)(allPrice * 0.03);
     	}
+    }
+    
+    public static Channel getChannelById(String id) {
+    	return api.getChannelById(id);
+ 
     }
 }
 
