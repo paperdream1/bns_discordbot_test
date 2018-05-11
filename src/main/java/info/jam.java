@@ -109,7 +109,12 @@ public class jam {
                         	  making.refreshCost();
                         	  
                         	  for(int i=0 ; i<COUNT.length; i++) {
-                        		 resultMessage += calMakingProfit(makingItemNames[i], making.findMakingItemCost(makingItemNames[i]), COUNT[i]) + "\n";
+                        		  shop.searchItem(makingItemNames[i], false);
+                        		  if(shop.getChecker() == 0) {
+                        			  resultMessage = "오류가 발생했습니다";
+                        			  break;
+                        		  }
+                        		  resultMessage += calMakingProfit(makingItemNames[i], shop.getMinPrice(), making.findMakingItemCost(makingItemNames[i]), COUNT[i]) + "\n";
                         	  }
                         	  message.reply(resultMessage);
                         	 
@@ -163,12 +168,12 @@ public class jam {
     }
     
     //제작 아이템 수익 계산
-    static private String calMakingProfit(String item, double price, int count) {
+    static private String calMakingProfit(String item, String price, double cost, int count) {
     	
-    	double itemPrice = priceToDouble(new Shop(item, false).getMinPrice());
+    	double itemPrice = priceToDouble(price);
     	double itemsPrice = itemPrice * count;
     	String result = item + "\t\t시장가 : " + (int)itemsPrice + " 금\t제작비 : "
-    	+ (int)price + " 금\t수익 : " + (calFee(itemPrice) * count - (int)price) + " 금";
+    	+ (int)cost + " 금\t수익 : " + (calFee(itemPrice) * count - (int)cost) + " 금";
     	return result;
     }
     

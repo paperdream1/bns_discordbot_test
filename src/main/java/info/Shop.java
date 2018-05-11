@@ -114,5 +114,9 @@ public class Shop {
 		
 		
 	}
+	
+	public int getChecker() {
+		return checker;
+	}
 
 }
