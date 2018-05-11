@@ -82,9 +82,10 @@ public class BotDB {
 			statement = connection.createStatement();
 	        statement.setQueryTimeout(30);  // set timeout to 30 sec.
 	        
-	        if(!statement.execute("select * from ftimer")) {
-	        	statement.executeUpdate("create table ftimer (id char(255))");
-	        }
+	        
+	        
+	        statement.executeUpdate("create table if not exists ftimer (id char(255))");
+	        
 	        
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
