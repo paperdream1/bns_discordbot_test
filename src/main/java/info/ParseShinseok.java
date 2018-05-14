@@ -14,49 +14,41 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class ParseShinseok {
-	
+
 	Document doc;
 	int checker;
 	String result;
-	
+
 	public ParseShinseok() {
 		try {
-			//신석샵 목록사이트 연결 
+			// 신석샵 목록사이트 연결
 			doc = Jsoup.connect("http://bns.plaync.com/login/displayItemList").get();
-			
-			
-			checker = 1;//연결성공시 체커 1
+
+			checker = 1;// 연결성공시 체커 1
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			checker = 0;//연결실패시 체커 0
+			checker = 0;// 연결실패시 체커 0
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String getList() {
-		
-		if(checker == 0) {
-			//연결실패시
+
+		if (checker == 0) {
+			// 연결실패시
 			return "";
 		}
 		result = "";
-		
-		Elements itemNames = doc.select("li h3");//아이템이름 추출
-		Elements itemPrices = doc.select("li span.shinseok em");//아이템 가격 추출
-		
-		for(int i=0; i<itemNames.size(); i++) {
-			result += itemNames.get(i).text() + "\t\t " + (int)Double.parseDouble(itemPrices.get(i).text()) + " 신석\n";
+
+		Elements itemNames = doc.select("li h3");// 아이템이름 추출
+		Elements itemPrices = doc.select("li span.shinseok em");// 아이템 가격 추출
+
+		for (int i = 0; i < itemNames.size(); i++) {
+			result += itemNames.get(i).text() + "\t\t " + (int) Double.parseDouble(itemPrices.get(i).text()) + " 신석\n";
 		}
-		
-		
-		
 
 		return result;
-		
+
 	}
-	
-	
-	
-	
 
 }
