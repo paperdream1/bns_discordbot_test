@@ -1,5 +1,6 @@
 package info;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
@@ -10,8 +11,6 @@ import de.btobastian.javacord.Javacord;
 import de.btobastian.javacord.entities.Channel;
 import de.btobastian.javacord.entities.Server;
 import de.btobastian.javacord.entities.message.Message;
-import de.btobastian.javacord.listener.Listener;
-import de.btobastian.javacord.listener.channel.*;
 import de.btobastian.javacord.listener.message.MessageCreateListener;
 import de.btobastian.javacord.listener.server.ServerJoinListener;
  
@@ -39,6 +38,7 @@ public class jam {
       		  + "\n!분배 파티인원 가격 : 분배금 계산"
       		  + "\n!재료 : 주요 제작재료 가격 검색"
       		  + "\n!화룡타이머 on/off : 화룡타이머 활성화/비활성화"
+      		  + "\n!!!message : message tts (test)"
       		  + "\n!help를 입력하면 다시 볼 수 있습니다";
     	
     	
@@ -49,7 +49,6 @@ public class jam {
  
     	final Making making = new Making();
     	
-    	final Shop shop = new Shop();
     	
     	
     	
@@ -109,24 +108,37 @@ public class jam {
                         	  ParseShinseok shinseok = new ParseShinseok();
                         	  message.reply(shinseok.getList());
                           } else if(innermessage.startsWith("!시장!")) {
-                        	  shop.searchItem(innermessage.substring(5), true);
-                        	  message.reply(shop.getPrice());
+                        	  if(innermessage.length() >= 6) {
+                        		  Shop item = new Shop(innermessage.substring(5), true);
+                        		  new Thread(item).run();
+                        		  message.reply(item.waitForgetPrice());
+                        	  }
+                        	  
                           } else if(innermessage.startsWith("!시장")) {
-                        	  shop.searchItem(innermessage.substring(4), false);
-                        	  message.reply(shop.getPrice());
+                        	  if(innermessage.length() >= 5) {
+                        		  Shop item = new Shop(innermessage.substring(4), false);
+                        		  new Thread(item).run();
+                        		  message.reply(item.waitForgetPrice());
+                        	  }
+                        	  
+                        	  
                           } else if(innermessage.equals("!제작")) {
                         	  String resultMessage = "";
                         	  making.refreshCost();
                         	  
                         	  for(int i=0 ; i<COUNT.length; i++) {
-                        		  shop.searchItem(makingItemNames[i], false);
-                        		  if(shop.getChecker() == 0) {
-                        			  resultMessage = "오류가 발생했습니다";
-                        			  break;
-                        		  }
-                        		  resultMessage += calMakingProfit(makingItemNames[i], shop.getMinPrice(), making.findMakingItemCost(makingItemNames[i]), COUNT[i]) + "\n";
+                        		  
+                        		  Shop shop = new Shop(makingItemNames[i], false);
+                        		  new Thread(shop).run();
+                        		  
+                        		  resultMessage += calMakingProfit(makingItemNames[i], shop.waitForgetMinPrice(), making.findMakingItemCost(makingItemNames[i]), COUNT[i]) + "\n";
                         	  }
                         	  message.reply(resultMessage);
+                        	  
+                        	  
+                        	  
+                        	  
+                        	  
                         	 
                           } else if(innermessage.startsWith("!분배")) {
                         	  String messageToc = message.getContent().substring(4);
@@ -138,15 +150,25 @@ public class jam {
                         	  
                         	  message.reply("최대입찰가 : "+ ((int)(double)price/num*(num-1)) + " 금 " + "분배금 : 1인당 " + (int)(double)price/num + " 금");
                           } else if(innermessage.equals("!재료")) {
-                        	  String resultMessage = "";
-                        	  shop.searchItem("영석", false);
-                        	  resultMessage += "영석\t" + shop.getMinPrice();
-                        	  shop.searchItem("월석", false);
-                        	  resultMessage += "월석\t" + shop.getMinPrice();
-                        	  shop.searchItem("영단", false);
-                        	  resultMessage += "영단\t" + shop.getMinPrice();
-                        	  shop.searchItem("선단", false);
-                        	  resultMessage += "선단\t" + shop.getMinPrice() ;
+                        	  	String resultMessage = "";
+                        	  	
+                        	  
+                        	  	ArrayList<Shop> meterialList = new ArrayList<Shop>(4);
+                      			String[] itemNames = {"영석", "월석", "영단", "선단"};
+                      		
+                      		
+                      			for(String itemName : itemNames) {
+                      				Shop item = new Shop(itemName, false);
+                      				meterialList.add(item);
+                      				new Thread(item).run();
+                      			}
+                      		
+                      			for(int i=0; i<meterialList.size(); i++) {
+                      				resultMessage += itemNames[i] + "\t" + meterialList.get(i).waitForgetMinPrice();
+                      			}
+                        	  
+                        	  
+                        	  
                         	  message.reply(resultMessage);
                           } else if(innermessage.startsWith("!화룡타이머")) {
                         	  if(!ftimer.isExistChannel(message.getChannelReceiver()) && innermessage.substring(7).contains("on")) {

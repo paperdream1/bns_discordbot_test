@@ -25,15 +25,15 @@ public class Making {
 	final static String NAME_CHIP = "명인 합성목편 묶음";
 	
 	static ArrayList<MakingItem> itemList;
-	static Shop shop;
 	
 	double ssC;
 	double msC;
 	double sbC;
 	double wbC;
 	
+	ArrayList<Double> meterialCosts;
+	
 	static{
-		shop = new Shop();
 		itemList = new ArrayList();
 		itemList.add(new MakingItem(695, 175, 695, 175, 540));
 		itemList.add(new MakingItem(230, 60, 230, 60, 180));
@@ -55,14 +55,22 @@ public class Making {
 	}
 	
 	public void refreshCost() {
-		shop.searchItem("영석", false);
-		this.ssC = jam.priceToDouble(shop.getMinPrice());
-		shop.searchItem("월석", false);
-		this.msC = jam.priceToDouble(shop.getMinPrice());
-		shop.searchItem("영단", false);
-		this.sbC = jam.priceToDouble(shop.getMinPrice());
-		shop.searchItem("선단", false);
-		this.wbC = jam.priceToDouble(shop.getMinPrice());
+		ArrayList<Shop> meterialList = new ArrayList(4);
+		String[] itemNames = {"영석", "월석", "영단", "선단"};
+		
+		
+		for(String itemName : itemNames) {
+			Shop item = new Shop(itemName, false);
+			meterialList.add(item);
+			new Thread(item).run();
+		}
+		
+		meterialCosts = new ArrayList();
+		for(Shop item: meterialList) {
+			meterialCosts.add(jam.priceToDouble(item.waitForgetMinPrice()));
+		}
+		
+		
 	}
 	
 	
@@ -71,7 +79,8 @@ public class Making {
 	
 	
 	private double getCost(MakingItem item) {
-		return (double)item.gold + item.soulstone*ssC + item.moonstone*msC + item.soulbead*sbC+ item.whitebead*wbC;
+		return (double)item.gold + item.soulstone*meterialCosts.get(0) + item.moonstone*meterialCosts.get(1)
+					+ item.soulbead*meterialCosts.get(2)+ item.whitebead*meterialCosts.get(3);
 	}
 	
 	public double findMakingItemCost(String item) {

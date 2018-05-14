@@ -34,7 +34,7 @@ public class FTimer {
 	public FTimer() {
 		//타이머시작
 		botdb = new BotDB();
-		channels = new ArrayList();
+		channels = new ArrayList<Channel>();
 		startTimer();
 	}
 	
