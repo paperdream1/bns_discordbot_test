@@ -178,6 +178,9 @@ public class jam {
     
     //시장에서 파싱해온 가격을 double로 변환
     static public double priceToDouble(String price) {
+    	if(!price.contains("금")) {
+    		price = "0." + price;
+    	}
     	return Double.parseDouble(price.replaceAll(" 금",".").replaceAll(" 은","").replaceAll(" 동","").replaceAll(",", ""));
     }
     
