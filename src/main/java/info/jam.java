@@ -115,22 +115,7 @@ public class jam {
 								message.reply("최대입찰가 : " + ((int) (double) price / num * (num - 1)) + " 금 "
 										+ "분배금 : 1인당 " + (int) (double) price / num + " 금");
 							} else if (innermessage.equals("!재료")) {
-								String resultMessage = "";
-
-								ArrayList<Shop> meterialList = new ArrayList<Shop>(4);
-								String[] itemNames = { "영석", "월석", "영단", "선단" };
-
-								for (String itemName : itemNames) {
-									Shop item = new Shop(itemName, false);
-									meterialList.add(item);
-									new Thread(item).run();
-								}
-
-								for (int i = 0; i < meterialList.size(); i++) {
-									resultMessage += itemNames[i] + "\t" + meterialList.get(i).waitForgetMinPrice();
-								}
-
-								message.reply(resultMessage);
+								new Thread(new Meterial(message.getChannelReceiver(), false)).run();
 							} else if (innermessage.startsWith("!화룡타이머")) {
 								if (!ftimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(7).contains("on")) {
