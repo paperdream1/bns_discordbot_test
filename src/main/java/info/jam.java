@@ -80,20 +80,15 @@ public class jam {
 							if (innermessage.equals("!help")) {
 								message.reply(HELP_MESSAGE);
 							} else if (innermessage.equals("!신석샵")) {
-								ParseShinseok shinseok = new ParseShinseok();
-								message.reply(shinseok.getList());
+								new Thread(new ParseShinseok(message.getChannelReceiver())).run();
 							} else if (innermessage.startsWith("!시장!")) {
 								if (innermessage.length() >= 6) {
-									Shop item = new Shop(innermessage.substring(5), true);
-									new Thread(item).run();
-									message.reply(item.waitForgetPrice());
+									new Thread(new Shop(innermessage.substring(5), message.getChannelReceiver(), true)).run();
 								}
 
 							} else if (innermessage.startsWith("!시장")) {
 								if (innermessage.length() >= 5) {
-									Shop item = new Shop(innermessage.substring(4), false);
-									new Thread(item).run();
-									message.reply(item.waitForgetPrice());
+									new Thread(new Shop(innermessage.substring(4), message.getChannelReceiver(), false)).run();
 								}
 
 							} else if (innermessage.equals("!제작")) {
@@ -187,7 +182,7 @@ public class jam {
 		double itemPrice = priceToDouble(price);
 		double itemsPrice = itemPrice * count;
 		String result = item + "\t\t시장가 : " + (int) itemsPrice + " 금\t제작비 : " + (int) cost + " 금\t수익 : "
-				+ (calFee(itemPrice) * count - (int) cost) + " 금";
+				+ ((calFee(itemPrice) - calDailyFee(itemPrice)) * count - (int) cost) + " 금";
 		return result;
 	}
 
@@ -206,7 +201,9 @@ public class jam {
 
 	// 일거래 수수료 계산
 	private static int calDailyFee(double allPrice) {
-		if (allPrice >= 1000 && allPrice < 10000) {
+		if(allPrice < 1000) {
+			return 0;
+		} else if (allPrice >= 1000 && allPrice < 10000) {
 			return (int) (allPrice * 0.01);
 		} else if (allPrice >= 10000 && allPrice < 50000) {
 			return (int) (allPrice * 0.02);
