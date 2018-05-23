@@ -25,14 +25,15 @@ public class jam {
 
 		final String HELP_MESSAGE = 
 				  "\n블소 한국서버 도우미 봇"
-				+ "\n!시장 물품이름 : 물품이름으로 시장검색"
-				+ "\n!시장! 물품이름 : 물품이름으로 시장검색(검색어 일치)"
+				+ "\n!시장 (물품이름) : 물품이름으로 시장검색"
+				+ "\n!시장! (물품이름) : 물품이름으로 시장검색(검색어 일치)"
 				+ "\n!신석샵 : 신석샵 오늘의 상품"
 				+ "\n!제작 : 주요 제작 물품 제작비, 수익 비교"
-				+ "\n!분배 파티인원 가격 : 분배금 계산"
+				+ "\n!분배 (파티인원) (가격) : 분배금 계산"
 				+ "\n!재료 : 주요 제작재료 가격 검색"
-				+ "\n!화룡타이머 on/off : 화룡타이머 활성화/비활성화"
-				+ "\n!!!message : message tts (test)"
+				+ "\n!화룡타이머 [on/off] : 화룡타이머 활성화/비활성화"
+				+ "\n!수수료 (시장가격): 시장수수료 계산 (일거래수수료 포함)"
+				+ "\n!!!(message) : message tts (test)"
 				+ "\n!help를 입력하면 다시 볼 수 있습니다";
 
 		api = Javacord.getApi(TOKEN_BOT, true);
@@ -109,7 +110,10 @@ public class jam {
 									ftimer.delChannel(message.getChannelReceiver());
 									message.reply("비활성화");
 								}
-							} else if (innermessage.startsWith("!!!")) {
+							} else if(innermessage.startsWith("!수수료")) {
+								Price price = new Price(innermessage.substring(5), true);
+								message.reply(price.calAllFee() + "금");
+							}else if (innermessage.startsWith("!!!")) {
 								message.getChannelReceiver().sendMessage(
 										message.getAuthor().getName() + " " + innermessage.replaceAll("!", ""), true);
 							}

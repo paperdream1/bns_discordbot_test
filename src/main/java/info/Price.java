@@ -3,14 +3,20 @@ package info;
 public class Price{
 	
 	String price;
-
+	boolean isCalFee = false;
+	
 	public Price(String price) {
 		this.price = price;
+	}
+	
+	public Price(String price, boolean isCalFee) {
+		this.price = price;
+		this.isCalFee = isCalFee;
 	}
 
 	// 시장에서 파싱해온 가격을 double로 변환
 	public double priceToDouble() {
-		if (!price.contains("금")) {
+		if (!isCalFee && !price.contains("금") && !price.startsWith("0.")) {
 			price = "0." + price;
 		}
 		return Double.parseDouble(price.replaceAll(" 금", ".").replaceAll(" 은", "").replaceAll(" 동", "").replaceAll(",", ""));
