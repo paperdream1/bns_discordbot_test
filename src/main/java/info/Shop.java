@@ -122,7 +122,7 @@ public class Shop implements Runnable {
 		}
 	}
 
-	public String waitForgetMinPrice() {
+	public Price waitForgetMinPrice() {
 		synchronized (lock) {
 			try {
 				while (this.doc == null) {
@@ -133,7 +133,7 @@ public class Shop implements Runnable {
 				Elements items = this.doc.select("td.price");
 				if (items.isEmpty()) {
 					result = "검색 결과가 없습니다";
-					return result;
+					return new Price(result);
 				} else {
 					result = "";
 				}
@@ -147,14 +147,14 @@ public class Shop implements Runnable {
 					result += item.getElementsByClass("total").text().replace("전체", "") + "\n";
 				}
 
-				return result;
+				return new Price(result);
 
 			} catch (InterruptedException e) {
 				// Again better error handling
 				e.printStackTrace();
 			}
 
-			return "검색 결과가 없습니다";
+			return new Price("검색결과가없습니다");
 		}
 	}
 

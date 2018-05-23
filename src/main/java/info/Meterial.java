@@ -18,6 +18,12 @@ public class Meterial implements Runnable{
 	
 	final Object lock = new Object();
 	
+	public Meterial(boolean is_making) {
+		this.is_making = is_making;
+		itemList = new ArrayList();
+		searchList = new ArrayList();
+	}
+	
 	public Meterial(Channel channel, boolean is_making) {
 		itemList = new ArrayList();
 		searchList = new ArrayList();
@@ -39,7 +45,7 @@ public class Meterial implements Runnable{
 			}
 			
 			for (int i = 0; i < meterialName.length; i++) {
-				itemList.add(new MeterialItem(meterialName[i], searchList.get(i).waitForgetMinPrice()));
+				itemList.add(new MeterialItem(meterialName[i], searchList.get(i).waitForgetMinPrice().toString()));
 			}
 			lock.notifyAll();
 			

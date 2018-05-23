@@ -2,7 +2,9 @@ package info;
 
 import java.util.ArrayList;
 
-public class Making {
+import de.btobastian.javacord.entities.Channel;
+
+public class Making implements Runnable{
 
 	// 영석 월석 영단 선단 금
 	final int KEY = 0;// 빛열쇠 695 175 695 175 540
@@ -31,18 +33,32 @@ public class Making {
 	double wbC;
 
 	ArrayList<Double> meterialCosts;
+	
+	Channel channel;
+	
+	final int[] COUNT = { 11, 35, 20, 3, 3, 2, 6, 6 };
+
 
 	static {
 		itemList = new ArrayList();
-		itemList.add(new MakingItem(695, 175, 695, 175, 540));
-		itemList.add(new MakingItem(230, 60, 230, 60, 180));
-		itemList.add(new MakingItem(850, 370, 850, 370, 900));
-		itemList.add(new MakingItem(1505, 375, 1505, 375, 1170));
-		itemList.add(new MakingItem(1620, 405, 1620, 405, 1260));
+		itemList.add(new MakingItem(NAME_KEY, 695, 175, 695, 175, 540, 11));
+		itemList.add(new MakingItem(NAME_ESTONE, 230, 60, 230, 60, 180, 35));
+		itemList.add(new MakingItem(NAME_SSTONE, 850, 370, 850, 370, 900, 20));
+		itemList.add(new MakingItem(NAME_DIA8, 850, 370, 850, 370, 900, 3));
+		itemList.add(new MakingItem(NAME_DIA3, 1505, 375, 1505, 375, 1170, 3));
+		itemList.add(new MakingItem(NAME_DIA4, 1620, 405, 1620, 405, 1260, 2));
+		itemList.add(new MakingItem(NAME_TALISMAN, 695, 175, 695, 175, 540, 6));
+		itemList.add(new MakingItem(NAME_CHIP, 695, 175, 695, 175, 540, 6));
+
 	}
 
 	public Making() {
 
+	}
+	
+	public Making(Channel channel) {
+		this.channel = channel;
+		refreshCost();
 	}
 
 	public Making(double ssC, double msC, double sbC, double wbC) {
@@ -54,18 +70,13 @@ public class Making {
 	}
 
 	public void refreshCost() {
-		ArrayList<Shop> meterialList = new ArrayList(4);
-		String[] itemNames = { "영석", "월석", "영단", "선단" };
+		Meterial meterial = new Meterial(true);
+		new Thread(meterial).run();
 
-		for (String itemName : itemNames) {
-			Shop item = new Shop(itemName, false);
-			meterialList.add(item);
-			new Thread(item).run();
-		}
-
+		ArrayList<MeterialItem> meterials = meterial.waitForMeterialItemPrice();
 		meterialCosts = new ArrayList();
-		for (Shop item : meterialList) {
-			meterialCosts.add(jam.priceToDouble(item.waitForgetMinPrice()));
+		for (MeterialItem item : meterials) {
+			meterialCosts.add(item.getPrice().priceToDouble());
 		}
 
 	}
@@ -74,54 +85,35 @@ public class Making {
 		return (double) item.gold + item.soulstone * meterialCosts.get(0) + item.moonstone * meterialCosts.get(1)
 				+ item.soulbead * meterialCosts.get(2) + item.whitebead * meterialCosts.get(3);
 	}
+	
+	private int calProfit(MakingItem item, Price itemPrice, int count) {
+		return (int)(itemPrice.calFee()*count - getCost(item));
+	}
 
-	public double findMakingItemCost(String item) {
+	
 
-		int index = -1;
-
-		switch (item) {
-		case NAME_KEY:
-		case NAME_TALISMAN:
-		case NAME_CHIP:
-			index = KEY;
-			break;
-		case NAME_DIA3:
-			index = DIA3;
-			break;
-		case NAME_DIA4:
-			index = DIA4;
-			break;
-		case NAME_DIA8:
-			index = DIA8;
-			break;
-		case NAME_SSTONE:
-			index = SSTONE;
-			break;
-		case NAME_ESTONE:
-			index = ESTONE;
-			break;
-
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+		String result = "";
+		
+		ArrayList<Shop> priceList = new ArrayList();
+		for(MakingItem item : itemList) {
+			Shop shop = new Shop(item.getName(), false);
+			priceList.add(shop);
+			new Thread(shop).run();
 		}
-		return getCost(itemList.get(index));
-
+		
+		for(int i=0; i<itemList.size(); i++) {
+			Price thisItemPrice = priceList.get(i).waitForgetMinPrice();
+			result += itemList.get(i).getName() + "\t 시장가 : " + (int)(thisItemPrice.priceToDouble() * itemList.get(i).count)
+					+ "금\t 제작비 : " + (int)getCost(itemList.get(i)) + "\t 수익 : " + calProfit(itemList.get(i), thisItemPrice, itemList.get(i).count) + "\n";
+		}
+		
+		channel.sendMessage(result);
+		
 	}
 
 }
 
-class MakingItem {
-	int moonstone;
-	int soulstone;
-	int soulbead;
-	int whitebead;
-	int gold;
-
-	public MakingItem(int soulstone, int moonstone, int soulbead, int whitebead, int gold) {
-		this.moonstone = moonstone;
-		this.soulstone = soulstone;
-		this.soulbead = soulbead;
-		this.whitebead = whitebead;
-		this.gold = gold;
-
-	}
-
-}

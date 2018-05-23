@@ -20,10 +20,7 @@ public class jam {
 
 	static public void main(String args[]) {
 
-		final String[] makingItemNames = { Making.NAME_KEY, Making.NAME_ESTONE, Making.NAME_SSTONE, Making.NAME_DIA8,
-				Making.NAME_DIA3, Making.NAME_DIA4, Making.NAME_TALISMAN, Making.NAME_CHIP };
-		final int[] COUNT = { 11, 35, 20, 3, 3, 2, 6, 6 };
-
+		
 		final String TOKEN_BOT = "NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0";
 
 		final String HELP_MESSAGE = 
@@ -42,8 +39,6 @@ public class jam {
 
 		// 화룡타이머 선언
 		final FTimer ftimer = new FTimer();
-
-		final Making making = new Making();
 
 		// 봇이 초되되엇을 때 동작 정의
 		api.registerListener(new ServerJoinListener() {
@@ -92,19 +87,7 @@ public class jam {
 								}
 
 							} else if (innermessage.equals("!제작")) {
-								String resultMessage = "";
-								making.refreshCost();
-
-								for (int i = 0; i < COUNT.length; i++) {
-
-									Shop shop = new Shop(makingItemNames[i], false);
-									new Thread(shop).run();
-
-									resultMessage += calMakingProfit(makingItemNames[i], shop.waitForgetMinPrice(),
-											making.findMakingItemCost(makingItemNames[i]), COUNT[i]) + "\n";
-								}
-								message.reply(resultMessage);
-
+								new Thread(new Making(message.getChannelReceiver())).run();
 							} else if (innermessage.startsWith("!분배")) {
 								String messageToc = message.getContent().substring(4);
 
@@ -152,50 +135,7 @@ public class jam {
 
 	}
 
-	// 시장에서 파싱해온 가격을 double로 변환
-	static public double priceToDouble(String price) {
-		if (!price.contains("금")) {
-			price = "0." + price;
-		}
-		return Double
-				.parseDouble(price.replaceAll(" 금", ".").replaceAll(" 은", "").replaceAll(" 동", "").replaceAll(",", ""));
-	}
-
-	// 제작 아이템 수익 계산
-	static private String calMakingProfit(String item, String price, double cost, int count) {
-
-		double itemPrice = priceToDouble(price);
-		double itemsPrice = itemPrice * count;
-		String result = item + "\t\t시장가 : " + (int) itemsPrice + " 금\t제작비 : " + (int) cost + " 금\t수익 : "
-				+ ((calFee(itemPrice) - calDailyFee(itemPrice)) * count - (int) cost) + " 금";
-		return result;
-	}
-
-	// 물품 수수료 계산
-	private static int calFee(double price) {
-		if (price < 100) {
-			return (int) (price * 0.95);
-		} else if (price >= 100 && price < 1000) {
-			return (int) (price * 0.94);
-		} else if (price >= 1000 && price < 10000) {
-			return (int) (price * 0.93);
-		} else {
-			return (int) (price * 0.92);
-		}
-	}
-
-	// 일거래 수수료 계산
-	private static int calDailyFee(double allPrice) {
-		if(allPrice < 1000) {
-			return 0;
-		} else if (allPrice >= 1000 && allPrice < 10000) {
-			return (int) (allPrice * 0.01);
-		} else if (allPrice >= 10000 && allPrice < 50000) {
-			return (int) (allPrice * 0.02);
-		} else {
-			return (int) (allPrice * 0.03);
-		}
-	}
+	
 
 	public static Channel getChannelById(String id) {
 		return api.getChannelById(id);
