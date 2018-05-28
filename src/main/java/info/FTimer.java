@@ -21,9 +21,9 @@ public class FTimer {
 	final String MESSAGE_1MIN = "화룡 1분전";
 	final String MESSAGE_0MIN = "화룡탐";
 
-	/**************
-	 * 화룡 시간 정의 FTIME[0] : 금토일시간표 FTIME[1] : 평일시간
-	 */
+	/*****************************************************
+	 * 화룡 시간 정의 FTIME[0] : 금토일시간표 FTIME[1] : 평일시간 *
+	 *****************************************************/
 	final int[][] FTIME = { { 1, 13, 16, 19, 22 }, { 1, 19, 22 } };
 
 	public FTimer() {
@@ -116,17 +116,6 @@ public class FTimer {
 					}
 					Thread.sleep(60000);// sleep 1min
 					break;
-
-				/*******************
-				 * test cell start *
-				 *******************
-				 * default: for(Channel channel : channels) { channel.sendMessage(MESSAGE_1MIN);
-				 * } System.out.println("여긴온다" + channels.size()); Thread.sleep(60000);//sleep
-				 * 1min break;
-				 *******************
-				 * test cell end *
-				 *******************/
-
 				}
 			} else if (time.getHours() == ntime && time.getMinutes() == 0) {
 				for (Channel channel : channels) {

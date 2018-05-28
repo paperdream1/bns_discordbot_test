@@ -76,14 +76,14 @@ public class Making implements Runnable{
 		ArrayList<MeterialItem> meterials = meterial.waitForMeterialItemPrice();
 		meterialCosts = new ArrayList();
 		for (MeterialItem item : meterials) {
-			meterialCosts.add(item.getPrice().priceToDouble());
+			meterialCosts.add(item.getPrice().toDouble());
 		}
 
 	}
 
 	private double getCost(MakingItem item) {
-		return (double) item.gold + item.soulstone * meterialCosts.get(0) + item.moonstone * meterialCosts.get(1)
-				+ item.soulbead * meterialCosts.get(2) + item.whitebead * meterialCosts.get(3);
+		return (double) item.getGold() + item.getSoulstone() * meterialCosts.get(0) + item.getMoonstone() * meterialCosts.get(1)
+				+ item.getSoulbead() * meterialCosts.get(2) + item.getWhitebead() * meterialCosts.get(3);
 	}
 	
 	private int calProfit(MakingItem item, Price itemPrice, int count) {
@@ -107,8 +107,8 @@ public class Making implements Runnable{
 		
 		for(int i=0; i<itemList.size(); i++) {
 			Price thisItemPrice = priceList.get(i).waitForgetMinPrice();
-			result += itemList.get(i).getName() + "\t 시장가 : " + (int)(thisItemPrice.priceToDouble() * itemList.get(i).count)
-					+ "금\t 제작비 : " + (int)getCost(itemList.get(i)) + "\t 수익 : " + calProfit(itemList.get(i), thisItemPrice, itemList.get(i).count) + "\n";
+			result += itemList.get(i).getName() + "\t 시장가 : " + (int)(thisItemPrice.toDouble() * itemList.get(i).getCount())
+					+ "금\t 제작비 : " + (int)getCost(itemList.get(i)) + "\t 수익 : " + calProfit(itemList.get(i), thisItemPrice, itemList.get(i).getCount()) + "\n";
 		}
 		
 		channel.sendMessage(result);

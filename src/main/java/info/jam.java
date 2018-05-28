@@ -113,9 +113,11 @@ public class jam {
 							} else if(innermessage.startsWith("!수수료")) {
 								Price price = new Price(innermessage.substring(5), true);
 								message.reply(price.calAllFee() + "금");
-							}else if (innermessage.startsWith("!!!")) {
+							} else if (innermessage.startsWith("!!!")) {
 								message.getChannelReceiver().sendMessage(
 										message.getAuthor().getName() + " " + innermessage.replaceAll("!", ""), true);
+							} else if(innermessage.equals("!이벤트")) {
+								new Thread(new Event(message.getChannelReceiver())).run();
 							}
 
 						} else if (innermessage.equals("린녀쟝")) {

@@ -2,13 +2,13 @@ package info;
 
 public class MakingItem {
 	
-	int moonstone;
-	int soulstone;
-	int soulbead;
-	int whitebead;
-	int gold;
-	String name;
-	int count;
+	private int moonstone;
+	private int soulstone;
+	private int soulbead;
+	private int whitebead;
+	private int gold;
+	private String name;
+	private int count;
 
 	public MakingItem(String name, int soulstone, int moonstone, int soulbead, int whitebead, int gold, int count) {
 		this.name = name;
@@ -24,6 +24,32 @@ public class MakingItem {
 	public String getName() {
 		return name;
 	}
+
+	public int getMoonstone() {
+		return moonstone;
+	}
+
+	public int getSoulstone() {
+		return soulstone;
+	}
+
+	public int getSoulbead() {
+		return soulbead;
+	}
+
+	public int getGold() {
+		return gold;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public int getWhitebead() {
+		return whitebead;
+	}
+	
+	
 	
 	
 	
