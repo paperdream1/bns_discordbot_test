@@ -54,7 +54,7 @@ public class Shop implements Runnable {
 			Elements items = doc.select("td.price");// 물품 관련 요소 추출
 			if (items.isEmpty()) {
 				result = "검색 결과가 없습니다";
-				channel.sendMessage(result);
+				channel.sendMessage("```" + result + "```");
 				return;
 			} else {
 				result = "";
@@ -72,7 +72,7 @@ public class Shop implements Runnable {
 				}
 			}
 
-			channel.sendMessage(result);
+			channel.sendMessage("```" + result + "```");
 		}
 		
 		} catch (IOException e) {
@@ -154,7 +154,7 @@ public class Shop implements Runnable {
 				e.printStackTrace();
 			}
 
-			return new Price("검색결과가없습니다");
+			return new Price("0");
 		}
 	}
 

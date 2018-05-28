@@ -43,14 +43,14 @@ public class Event implements Runnable{
 		String result = "";
 		
 		for(EventItem item : eventList) {
-			result += item.getTitle() + "\n\t" + item.getDate() + "\n\t\t" +item.getUrl() + "\n";
+			result += "```" + item.getTitle() + "\n\t" + item.getDate() + "```\t\t" +item.getUrl() + "\n";
 		}
 		
 		channel.sendMessage(result);
 		
 		}catch(IOException e) {
 			e.getMessage();
-			channel.sendMessage("오류가 발생했습니다");
+			channel.sendMessage("```오류가 발생했습니다```");
 		}
 		
 	}

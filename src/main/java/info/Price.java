@@ -19,10 +19,11 @@ public class Price{
 
 	// 시장에서 파싱해온 가격을 double로 변환
 	private double priceToDouble() {
+		String innerprice = price;
 		if (!isCalFee && !price.contains("금") && !price.startsWith("0.")) {
-			price = "0." + price;
+			innerprice = "0." + price;
 		}
-		return Double.parseDouble(price.replaceAll(" 금", ".").replaceAll(" 은", "").replaceAll(" 동", "").replaceAll(",", ""));
+		return Double.parseDouble(innerprice.replaceAll(" 금", ".").replaceAll(" 은", "").replaceAll(" 동", "").replaceAll(",", ""));
 	}
 	
 	// 물품 수수료 계산

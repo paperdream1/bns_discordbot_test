@@ -45,10 +45,10 @@ public class ParseShinseok implements Runnable{
 				result += itemNames.get(i).text() + "\t\t " + (int) Double.parseDouble(itemPrices.get(i).text()) + " 신석\n";
 			}
 
-			channel.sendMessage(result);
+			channel.sendMessage("```" + result + "```");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			channel.sendMessage("연결에 실패힜습니다");
+			channel.sendMessage("```연결에 실패힜습니다```");
 			e.printStackTrace();
 		}
 		

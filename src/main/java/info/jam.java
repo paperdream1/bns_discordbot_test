@@ -24,7 +24,7 @@ public class jam {
 		final String TOKEN_BOT = "NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0";
 
 		final String HELP_MESSAGE = 
-				  "\n블소 한국서버 도우미 봇"
+				  "```\n블소 한국서버 도우미 봇"
 				+ "\n!시장 (물품이름) : 물품이름으로 시장검색"
 				+ "\n!시장! (물품이름) : 물품이름으로 시장검색(검색어 일치)"
 				+ "\n!신석샵 : 신석샵 오늘의 상품"
@@ -35,7 +35,7 @@ public class jam {
 				+ "\n!수수료 (시장가격): 시장수수료 계산 (일거래수수료 포함)"
 				+ "\n!이벤트 : 현재 진행중인 이벤트 확인"
 				+ "\n!!!(message) : message tts (test)"
-				+ "\n!help를 입력하면 다시 볼 수 있습니다";
+				+ "\n!help를 입력하면 다시 볼 수 있습니다```";
 
 		api = Javacord.getApi(TOKEN_BOT, true);
 
@@ -97,26 +97,26 @@ public class jam {
 								int num = Integer.parseInt(toc.nextToken());
 								int price = Integer.parseInt(toc.nextToken());
 
-								message.reply("최대입찰가 : " + ((int) (double) price / num * (num - 1)) + " 금 "
-										+ "분배금 : 1인당 " + (int) (double) price / num + " 금");
+								message.reply("```최대입찰가 : " + ((int) (double) price / num * (num - 1)) + " 금 "
+										+ "분배금 : 1인당 " + (int) (double) price / num + " 금```");
 							} else if (innermessage.equals("!재료")) {
 								new Thread(new Meterial(message.getChannelReceiver(), false)).run();
 							} else if (innermessage.startsWith("!화룡타이머")) {
 								if (!ftimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(7).contains("on")) {
 									ftimer.addChannel(message.getChannelReceiver());
-									message.reply("활성화");
+									message.reply("```화룡타이머 활성화```");
 								} else if (ftimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(7).contains("off")) {
 									ftimer.delChannel(message.getChannelReceiver());
-									message.reply("비활성화");
+									message.reply("```화룡타이머 비활성화```");
 								}
 							} else if(innermessage.startsWith("!수수료")) {
 								Price price = new Price(innermessage.substring(5), true);
-								message.reply(price.calAllFee() + "금");
+								message.reply("```" + price.calAllFee() + "금```");
 							} else if (innermessage.startsWith("!!!")) {
-								message.getChannelReceiver().sendMessage(
-										message.getAuthor().getName() + " " + innermessage.replaceAll("!", ""), true);
+								message.getChannelReceiver().sendMessage("```" + 
+										message.getAuthor().getName() + " " + innermessage.replaceAll("!", "") + "```", true);
 							} else if(innermessage.equals("!이벤트")) {
 								new Thread(new Event(message.getChannelReceiver())).run();
 							}
@@ -127,7 +127,7 @@ public class jam {
 								|| innermessage.equals("하임다") || innermessage.equals("하이")
 								|| innermessage.equals("하이하이") || innermessage.equals("안녕하세요")) {
 
-							message.reply(message.getAuthor().getMentionTag() + " 하이임니다.");
+							message.reply("```" + message.getAuthor().getMentionTag() + " 하이임니다.```");
 
 						}
 

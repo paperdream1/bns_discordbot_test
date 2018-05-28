@@ -58,7 +58,7 @@ public class Meterial implements Runnable{
 				result += item.getName() + "\t" + item.getPrice().toString();
 			}
 			
-			channel.sendMessage(result);
+			channel.sendMessage("```" + result + "```");
 		}
 		
 		
