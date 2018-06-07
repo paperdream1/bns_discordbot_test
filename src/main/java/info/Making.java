@@ -107,8 +107,8 @@ public class Making implements Runnable{
 		
 		for(int i=0; i<itemList.size(); i++) {
 			Price thisItemPrice = priceList.get(i).waitForgetMinPrice();
-			result += itemList.get(i).getName() + "\t 시장가 : " + (int)(thisItemPrice.toDouble() * itemList.get(i).getCount())
-					+ "금     제작비 : " + (int)getCost(itemList.get(i)) + "     수익 : " + calProfit(itemList.get(i), thisItemPrice, itemList.get(i).getCount()) + "\n";
+			result += itemList.get(i).getName() + "   시장가 : " + (int)(thisItemPrice.toDouble() * itemList.get(i).getCount())
+					+ "금  제작비 : " + (int)getCost(itemList.get(i)) + "  수익 : " + calProfit(itemList.get(i), thisItemPrice, itemList.get(i).getCount()) + "\n";
 		}
 		
 		channel.sendMessage("```" + result + "```");

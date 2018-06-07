@@ -1,7 +1,11 @@
 package info;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -17,27 +21,41 @@ import de.btobastian.javacord.listener.server.ServerJoinListener;
 public class jam {
 
 	static DiscordAPI api = null;
+	
+	final static String TOKEN_BOT = "NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0";
+	
+	final static String TOKEN_PASS = "./DiscordBot/token.text";
+	
+	
+
+	final static String HELP_MESSAGE = 
+			  "```\n블소 한국서버 도우미 봇"
+			+ "\n!시장 (물품이름) : 물품이름으로 시장검색"
+			+ "\n!시장! (물품이름) : 물품이름으로 시장검색(검색어 일치)"
+			+ "\n!신석샵 : 신석샵 오늘의 상품"
+			+ "\n!제작 : 주요 제작 물품 제작비, 수익 비교"
+			+ "\n!분배 (파티인원) (가격) : 분배금 계산"
+			+ "\n!재료 : 주요 제작재료 가격 검색"
+			+ "\n!화룡타이머 [on/off] : 화룡타이머 활성화/비활성화"
+			+ "\n!수수료 (시장가격): 시장수수료 계산 (일거래수수료 포함)"
+			+ "\n!이벤트 : 현재 진행중인 이벤트 확인"
+			+ "\n!help를 입력하면 다시 볼 수 있습니다```";
 
 	static public void main(String args[]) {
-
 		
-		final String TOKEN_BOT = "NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0";
+		try {
+			Scanner in = new Scanner(new File(TOKEN_PASS));
+			while(in.hasNext()) {
+				api = Javacord.getApi(in.nextLine(), true);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 
-		final String HELP_MESSAGE = 
-				  "```\n블소 한국서버 도우미 봇"
-				+ "\n!시장 (물품이름) : 물품이름으로 시장검색"
-				+ "\n!시장! (물품이름) : 물품이름으로 시장검색(검색어 일치)"
-				+ "\n!신석샵 : 신석샵 오늘의 상품"
-				+ "\n!제작 : 주요 제작 물품 제작비, 수익 비교"
-				+ "\n!분배 (파티인원) (가격) : 분배금 계산"
-				+ "\n!재료 : 주요 제작재료 가격 검색"
-				+ "\n!화룡타이머 [on/off] : 화룡타이머 활성화/비활성화"
-				+ "\n!수수료 (시장가격): 시장수수료 계산 (일거래수수료 포함)"
-				+ "\n!이벤트 : 현재 진행중인 이벤트 확인"
-				+ "\n!!!(message) : message tts (test)"
-				+ "\n!help를 입력하면 다시 볼 수 있습니다```";
-
-		api = Javacord.getApi(TOKEN_BOT, true);
+		//api = Javacord.getApi(TOKEN_BOT, true);
 
 		// 화룡타이머 선언
 		final FTimer ftimer = new FTimer();
@@ -114,9 +132,6 @@ public class jam {
 							} else if(innermessage.startsWith("!수수료")) {
 								Price price = new Price(innermessage.substring(5), true);
 								message.reply("```" + price.calAllFee() + "금```");
-							} else if (innermessage.startsWith("!!!")) {
-								message.getChannelReceiver().sendMessage("```" + 
-										message.getAuthor().getName() + " " + innermessage.replaceAll("!", "") + "```", true);
 							} else if(innermessage.equals("!이벤트")) {
 								new Thread(new Event(message.getChannelReceiver())).run();
 							}
@@ -127,7 +142,7 @@ public class jam {
 								|| innermessage.equals("하임다") || innermessage.equals("하이")
 								|| innermessage.equals("하이하이") || innermessage.equals("안녕하세요")) {
 
-							message.reply("```" + message.getAuthor().getMentionTag() + " 하이임니다.```");
+							message.reply("```" + message.getAuthor().getName()+ " 하이임니다.```");
 
 						}
 
