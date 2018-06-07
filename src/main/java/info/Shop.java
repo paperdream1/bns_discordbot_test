@@ -77,7 +77,7 @@ public class Shop implements Runnable {
 		
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new Logger(e);
 		}
 		
 
@@ -115,7 +115,7 @@ public class Shop implements Runnable {
 
 			} catch (InterruptedException e) {
 				// Again better error handling
-				e.printStackTrace();
+				new Logger(e);
 			}
 
 			return null;
@@ -151,7 +151,7 @@ public class Shop implements Runnable {
 
 			} catch (InterruptedException e) {
 				// Again better error handling
-				e.printStackTrace();
+				new Logger(e);
 			}
 
 			return new Price("0");

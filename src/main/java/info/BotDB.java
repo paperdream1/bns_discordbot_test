@@ -30,7 +30,7 @@ public class BotDB {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new Logger(e);
 		}
 
 		return results;
@@ -47,7 +47,7 @@ public class BotDB {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new Logger(e);
 		}
 
 		return result;
@@ -62,7 +62,7 @@ public class BotDB {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new Logger(e);
 		}
 
 		return result;
@@ -82,7 +82,7 @@ public class BotDB {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new Logger(e);
 		}
 
 	}

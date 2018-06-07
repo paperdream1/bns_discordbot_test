@@ -49,7 +49,7 @@ public class ParseShinseok implements Runnable{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			channel.sendMessage("```연결에 실패힜습니다```");
-			e.printStackTrace();
+			new Logger(e);
 		}
 		
 	}

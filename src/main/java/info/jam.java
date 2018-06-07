@@ -23,7 +23,7 @@ public class jam {
 	static DiscordAPI api = null;
 	
 	
-	final static String TOKEN_PASS = "./token.text";
+	final static String TOKEN_PATH = "./token.text";
 	
 	
 
@@ -43,13 +43,13 @@ public class jam {
 	static public void main(String args[]) {
 		
 		try {
-			Scanner in = new Scanner(new File(TOKEN_PASS));
+			Scanner in = new Scanner(new File(TOKEN_PATH));
 			while(in.hasNext()) {
 				api = Javacord.getApi(in.nextLine(), true);
 			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			new Logger(e);
 		}
 		
 		

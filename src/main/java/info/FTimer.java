@@ -78,7 +78,7 @@ public class FTimer {
 					checkFTime();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					new Logger(e);
 				}
 
 			}

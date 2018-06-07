@@ -74,7 +74,7 @@ public class Meterial implements Runnable{
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				new Logger(e);
 				return new ArrayList();
 			}
 			
