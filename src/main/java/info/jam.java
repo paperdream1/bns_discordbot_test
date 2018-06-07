@@ -22,9 +22,8 @@ public class jam {
 
 	static DiscordAPI api = null;
 	
-	final static String TOKEN_BOT = "NDM3ODc5OTgxNzYzNDYxMTIx.Db8fFQ.uvWGUGwLMqT6kvdry0bCJ18u8x0";
 	
-	final static String TOKEN_PASS = "./DiscordBot/token.text";
+	final static String TOKEN_PASS = "./token.text";
 	
 	
 
