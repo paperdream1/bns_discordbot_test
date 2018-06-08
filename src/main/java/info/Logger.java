@@ -18,6 +18,7 @@ public class Logger {
 		try {
 			out = new PrintWriter(LOG_PATH + getDateFormat() + ".log");
 			out.println(e.getMessage());
+			out.println(e.getStackTrace());
 			out.close();
 			
 		} catch (FileNotFoundException e1) {
