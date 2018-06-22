@@ -43,15 +43,15 @@ public class Making implements Runnable{
 
 	static {
 		itemList = new ArrayList();
+		itemList.add(new MakingItem(NAME_TALISMAN, 695, 175, 695, 175, 540, 6));
 		itemList.add(new MakingItem(NAME_KEY, 695, 175, 695, 175, 540, 11));
-		itemList.add(new MakingItem(NAME_ESTONE, 230, 60, 230, 60, 180, 35));
-		itemList.add(new MakingItem(NAME_SSTONE, 850, 370, 850, 370, 900, 20));
 		itemList.add(new MakingItem(NAME_DIA8, 850, 370, 850, 370, 900, 3));
 		itemList.add(new MakingItem(NAME_DIA3, 1505, 375, 1505, 375, 1170, 3));
 		itemList.add(new MakingItem(NAME_DIA4, 1620, 405, 1620, 405, 1260, 2));
-		itemList.add(new MakingItem(NAME_TALISMAN, 695, 175, 695, 175, 540, 6));
 		itemList.add(new MakingItem(NAME_CHIP, 695, 175, 695, 175, 540, 6));
 		itemList.add(new MakingItem(NAME_PSTONE, 230, 60, 230, 60, 180, 8));
+		itemList.add(new MakingItem(NAME_ESTONE, 230, 60, 230, 60, 180, 35));
+		itemList.add(new MakingItem(NAME_SSTONE, 850, 370, 850, 370, 900, 20));
 
 	}
 
@@ -89,10 +89,21 @@ public class Making implements Runnable{
 				+ item.getSoulbead() * meterialCosts.get(2) + item.getWhitebead() * meterialCosts.get(3);
 	}
 	
+	private String getMeterialCostList() {
+		StringBuilder result = new StringBuilder();
+		result.append("영석 : ").append(meterialCosts.get(0)).append(" 금  월석 : ").append(meterialCosts.get(1))
+				.append(" 금  영단 : ").append(meterialCosts.get(2)).append(" 금  선단 : ").append(meterialCosts.get(3))
+				.append(" 금\n");
+		return result.toString();
+	}
+	
 	private int calProfit(MakingItem item, Price itemPrice, int count) {
 		return (int)(itemPrice.calFee()*count - getCost(item));
 	}
 
+	private String makiLineInDiscordMessage() {
+		return "---------------------------------------------------------------";
+	}
 	
 
 	@Override
@@ -107,6 +118,9 @@ public class Making implements Runnable{
 			priceList.add(shop);
 			new Thread(shop).run();
 		}
+		
+		result += getMeterialCostList();
+		result += makiLineInDiscordMessage();
 		
 		for(int i=0; i<itemList.size(); i++) {
 			Price thisItemPrice = priceList.get(i).waitForgetMinPrice();
