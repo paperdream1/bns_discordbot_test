@@ -15,6 +15,7 @@ public class Making implements Runnable{
 	final int DIA3 = 3;// 삼금주 1505 375 1505 375 1170
 	final int DIA4 = 4;// 사금주 1620 405 1620 405 1260
 	final int CHIP = 0;// 목편묶음 695 175 695 175 540
+	final int PSTONE = 1;// 편심담류석 230 60 230 60 180
 
 	final static String NAME_KEY = "빛나는 열쇠 꾸러미";
 	final static String NAME_ESTONE = "진화석";
@@ -24,6 +25,7 @@ public class Making implements Runnable{
 	final static String NAME_DIA3 = "삼성 금강석 주머니";
 	final static String NAME_DIA4 = "사성 금강석 주머니";
 	final static String NAME_CHIP = "명인 합성목편 묶음";
+	final static String NAME_PSTONE = "편심담류석";
 
 	static ArrayList<MakingItem> itemList;
 
@@ -49,6 +51,7 @@ public class Making implements Runnable{
 		itemList.add(new MakingItem(NAME_DIA4, 1620, 405, 1620, 405, 1260, 2));
 		itemList.add(new MakingItem(NAME_TALISMAN, 695, 175, 695, 175, 540, 6));
 		itemList.add(new MakingItem(NAME_CHIP, 695, 175, 695, 175, 540, 6));
+		itemList.add(new MakingItem(NAME_PSTONE, 230, 60, 230, 60, 180, 8));
 
 	}
 
