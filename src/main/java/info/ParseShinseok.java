@@ -19,7 +19,6 @@ public class ParseShinseok implements Runnable{
 
 	Document doc;
 	int checker;
-	String result;
 	Channel channel;
 	
 	
@@ -36,19 +35,20 @@ public class ParseShinseok implements Runnable{
 			// 신석샵 목록사이트 연결
 			doc = Jsoup.connect("http://bns.plaync.com/login/displayItemList").get();
 
-			result = "";
 
+			MarkdownBuilder result = new MarkdownBuilder();
+			
 			Elements itemNames = doc.select("li h3");// 아이템이름 추출
 			Elements itemPrices = doc.select("li span.shinseok em");// 아이템 가격 추출
 
 			for (int i = 0; i < itemNames.size(); i++) {
-				result += itemNames.get(i).text() + "\t\t " + (int) Double.parseDouble(itemPrices.get(i).text()) + " 신석\n";
+				result.append(itemNames.get(i).text()).append("\t\t ").append((int) Double.parseDouble(itemPrices.get(i).text())).append(" 신석").newLine();
 			}
 
-			channel.sendMessage("```" + result + "```");
+			channel.sendMessage(result.getMessage());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			channel.sendMessage("```연결에 실패힜습니다```");
+			channel.sendMessage(new MarkdownBuilder("연결에 실패힜습니다").getMessage());
 			new Logger(e);
 		}
 		

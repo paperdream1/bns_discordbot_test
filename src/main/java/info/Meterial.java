@@ -53,12 +53,12 @@ public class Meterial implements Runnable{
 		}
 		
 		if(!is_making) {
-			String result = "";
+			MarkdownBuilder result = new MarkdownBuilder();
 			for(MeterialItem item : itemList) {
-				result += item.getName() + "\t" + item.getPrice().toString();
+				result.append(item.getName()).append("\t").append(item.getPrice().toString());
 			}
 			
-			channel.sendMessage("```" + result + "```");
+			channel.sendMessage(result.getMessage());
 		}
 		
 		

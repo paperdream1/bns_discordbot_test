@@ -101,16 +101,13 @@ public class Making implements Runnable{
 		return (int)(itemPrice.calFee()*count - getCost(item));
 	}
 
-	private String makiLineInDiscordMessage() {
-		return "---------------------------------------------------------------";
-	}
 	
 
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		
-		String result = "";
+		MarkdownBuilder result = new MarkdownBuilder();
 		
 		ArrayList<Shop> priceList = new ArrayList();
 		for(MakingItem item : itemList) {
@@ -119,16 +116,16 @@ public class Making implements Runnable{
 			new Thread(shop).run();
 		}
 		
-		result += getMeterialCostList();
-		result += makiLineInDiscordMessage();
+		result.append(getMeterialCostList());
+		result.addLine();
 		
 		for(int i=0; i<itemList.size(); i++) {
 			Price thisItemPrice = priceList.get(i).waitForgetMinPrice();
-			result += itemList.get(i).getName() + "   시장가 : " + (int)(thisItemPrice.toDouble() * itemList.get(i).getCount())
-					+ "금  제작비 : " + (int)getCost(itemList.get(i)) + "  수익 : " + calProfit(itemList.get(i), thisItemPrice, itemList.get(i).getCount()) + "\n";
+			result.append(itemList.get(i).getName()).append("   시장가 : ").append((int)(thisItemPrice.toDouble() * itemList.get(i).getCount()))
+					.append("금  제작비 : ").append((int)getCost(itemList.get(i))).append("  수익 : ").append(calProfit(itemList.get(i), thisItemPrice, itemList.get(i).getCount())).newLine();
 		}
 		
-		channel.sendMessage("```" + result + "```");
+		channel.sendMessage(result.getMessage());
 		
 	}
 

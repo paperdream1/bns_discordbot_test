@@ -114,23 +114,23 @@ public class jam {
 								int num = Integer.parseInt(toc.nextToken());
 								int price = Integer.parseInt(toc.nextToken());
 
-								message.reply("```최대입찰가 : " + ((int) (double) price / num * (num - 1)) + " 금 "
-										+ "분배금 : 1인당 " + (int) (double) price / num + " 금```");
+								message.reply(new MarkdownBuilder("최대입찰가 : ").append(((int) (double) price / num * (num - 1))).append(" 금 ")
+										.append("분배금 : 1인당 ").append((int) (double) price / num).append(" 금").getMessage());
 							} else if (innermessage.equals("!재료")) {
 								new Thread(new Meterial(message.getChannelReceiver(), false)).run();
 							} else if (innermessage.startsWith("!화룡타이머")) {
 								if (!ftimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(7).contains("on")) {
 									ftimer.addChannel(message.getChannelReceiver());
-									message.reply("```화룡타이머 활성화```");
+									message.reply(new MarkdownBuilder("화룡타이머 활성화").getMessage());
 								} else if (ftimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(7).contains("off")) {
 									ftimer.delChannel(message.getChannelReceiver());
-									message.reply("```화룡타이머 비활성화```");
+									message.reply(new MarkdownBuilder("화룡타이머 비활성화").getMessage());
 								}
 							} else if(innermessage.startsWith("!수수료")) {
 								Price price = new Price(innermessage.substring(5), true);
-								message.reply("```" + price.calAllFee() + "금```");
+								message.reply(new MarkdownBuilder(price.calAllFee()).append("금").getMessage());
 							} else if(innermessage.equals("!이벤트")) {
 								new Thread(new Event(message.getChannelReceiver())).run();
 							}
@@ -141,7 +141,7 @@ public class jam {
 								|| innermessage.equals("하임다") || innermessage.equals("하이")
 								|| innermessage.equals("하이하이") || innermessage.equals("안녕하세요")) {
 
-							message.reply("```" + message.getAuthor().getName()+ " 하이임니다.```");
+							message.reply(new MarkdownBuilder(message.getAuthor().getName()).append(" 하이임니다.").getMessage());
 
 						}
 
