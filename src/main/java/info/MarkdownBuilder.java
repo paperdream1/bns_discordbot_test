@@ -27,7 +27,7 @@ public class MarkdownBuilder {
 	}
 	
 	public MarkdownBuilder addLine() {
-		message.append("---------------------------------------------------------------\n");
+		message.append("-------------------------------------------------------------- \n");
 		return this;
 	}
 	

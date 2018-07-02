@@ -130,7 +130,7 @@ public class Shop implements Runnable {
 				String result;
 				Elements items = this.doc.select("td.price");
 				if (items.isEmpty()) {
-					result = "검색 결과가 없습니다";
+					result = "0";
 					return new Price(result);
 				} else {
 					result = "";
