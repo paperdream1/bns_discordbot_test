@@ -85,11 +85,17 @@ public class FTimer {
 
 		};
 
-		timer.schedule(task, 1000, 1000);// 1 second
+		timer.schedule(task, 1000, 2000);//repeat every 2sec
 	}
 
 	private void checkFTime() throws InterruptedException {
 		time = new Date();
+		
+		//2시이후 12시이전일경우
+		if(time.getHours()>1 && time.getHours() < 12) {
+			Thread.sleep(60*60*1000);//sleep 1hour
+			return;
+		}
 
 		// 금토일인지 판단
 		int[] HOUR = FTIME[((time.getDay() + 1) % 6 <= 1) ? 0 : 1];
@@ -102,26 +108,27 @@ public class FTimer {
 					for (Channel channel : channels) {
 						channel.sendMessage(MESSAGE_10MIN);
 					}
-					Thread.sleep(60000);// sleep 1min
-					break;
+					Thread.sleep(5*60*1000);// sleep 5min
+					return;
 				case 55:
 					for (Channel channel : channels) {
 						channel.sendMessage(MESSAGE_5MIN);
 					}
-					Thread.sleep(60000);// sleep 1min
-					break;
+					Thread.sleep(4*60*1000);// sleep 4min
+					return;
 				case 59:
 					for (Channel channel : channels) {
 						channel.sendMessage(MESSAGE_1MIN);
 					}
-					Thread.sleep(60000);// sleep 1min
-					break;
+					Thread.sleep(60*1000);// sleep 1min
+					return;
 				}
 			} else if (time.getHours() == ntime && time.getMinutes() == 0) {
 				for (Channel channel : channels) {
 					channel.sendMessage(MESSAGE_0MIN);
 				}
-				Thread.sleep(60000);// sleep 1min
+				Thread.sleep(3*60*60*1000 - 10*60*1000);// sleep 2hour 50min
+				return;
 			}
 		}
 	}

@@ -54,12 +54,11 @@ public class jam {
 		
 		
 
-		//api = Javacord.getApi(TOKEN_BOT, true);
-
+		
 		// 화룡타이머 선언
 		final FTimer ftimer = new FTimer();
 
-		// 봇이 초되되엇을 때 동작 정의
+		// 봇이 초대되엇을 때 동작 정의
 		api.registerListener(new ServerJoinListener() {
 
 			@Override
