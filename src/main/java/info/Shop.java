@@ -71,6 +71,7 @@ public class Shop implements Runnable {
 			}
 
 			channel.sendMessage(result.getMessage());
+			
 		}
 		
 		} catch (IOException e) {

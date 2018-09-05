@@ -42,32 +42,32 @@ public class Price{
 	}
 	
 	// 물품 수수료 계산
-	public int calFee() {
+	public double calFee() {
 		if (doublePrice < 100) {
-			return (int) (doublePrice * 0.95);
+			return doublePrice * 0.95;
 		} else if (doublePrice >= 100 && doublePrice < 1000) {
-			return (int) (doublePrice * 0.94);
+			return doublePrice * 0.94;
 		} else if (doublePrice >= 1000 && doublePrice < 10000) {
-			return (int) (doublePrice * 0.93);
+			return doublePrice * 0.93;
 		} else {
-			return (int) (doublePrice * 0.92);
+			return doublePrice * 0.92;
 		}
 	}
 
 	// 일거래 수수료 계산
-	public int calDailyFee() {
+	public double calDailyFee() {
 		if(doublePrice < 1000) {
 			return 0;
 		} else if (doublePrice >= 1000 && doublePrice < 10000) {
-			return (int) (doublePrice * 0.01);
+			return doublePrice * 0.01;
 		} else if (doublePrice >= 10000 && doublePrice < 50000) {
-			return (int) (doublePrice * 0.02);
+			return doublePrice * 0.02;
 		} else {
-			return (int) (doublePrice * 0.03);
+			return doublePrice * 0.03;
 		}
 	}
 		
-	public int calAllFee() {
+	public double calAllFee() {
 		return calFee() - calDailyFee();
 	}
 	
