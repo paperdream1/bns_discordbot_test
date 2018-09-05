@@ -23,6 +23,21 @@ public class Price{
 		if (!isCalFee && !price.contains("금") && !price.startsWith("0.")) {
 			innerprice = "0." + price;
 		}
+		if(innerprice.contains("은")) {
+			if(innerprice.contains("금")) {
+				if(innerprice.indexOf("은") - innerprice.indexOf("금") <= 3) {
+					innerprice = innerprice.substring(0, innerprice.indexOf("금")+1) + "0" + 
+							innerprice.substring(innerprice.indexOf("금")+1);
+				}
+			} else {
+				if(innerprice.startsWith("0")) {
+					if(innerprice.indexOf("은") <= 4) {
+						innerprice = innerprice.substring(0, 2) + "0" + innerprice.substring(2);
+					}
+				}
+				
+			}
+		}
 		return Double.parseDouble(innerprice.replaceAll(" 금", ".").replaceAll(" 은", "").replaceAll(" 동", "").replaceAll(",", ""));
 	}
 	
