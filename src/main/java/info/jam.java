@@ -36,6 +36,7 @@ public class jam {
 			+ "\n!분배 (파티인원) (가격) : 분배금 계산"
 			+ "\n!재료 : 주요 제작재료 가격 검색"
 			+ "\n!화룡타이머 [on/off] : 화룡타이머 활성화/비활성화"
+			+ "\n!사슬군도타이머 [on/off] : 사슬군도타이머 활성화/비활성화"
 			+ "\n!수수료 (시장가격): 시장수수료 계산 (일거래수수료 포함)"
 			+ "\n!이벤트 : 현재 진행중인 이벤트 확인"
 			+ "\n!help를 입력하면 다시 볼 수 있습니다```";
@@ -57,6 +58,7 @@ public class jam {
 		
 		// 화룡타이머 선언
 		final FTimer ftimer = new FTimer();
+		final ChainTimer chaintimer = new ChainTimer();
 
 		// 봇이 초대되엇을 때 동작 정의
 		api.registerListener(new ServerJoinListener() {
@@ -80,6 +82,7 @@ public class jam {
 			public void onSuccess(final DiscordAPI api) {
 
 				ftimer.getChannelsFromDB();
+				chaintimer.getChannelsFromDB();
 
 				api.registerListener(new MessageCreateListener() {
 					public void onMessageCreate(DiscordAPI api, Message message) {
@@ -126,6 +129,16 @@ public class jam {
 										&& innermessage.substring(7).contains("off")) {
 									ftimer.delChannel(message.getChannelReceiver());
 									message.reply(new MarkdownBuilder("화룡타이머 비활성화").getMessage());
+								}
+							} else if (innermessage.startsWith("!사슬군도타이머")) {
+								if (!chaintimer.isExistChannel(message.getChannelReceiver())
+										&& innermessage.substring(9).contains("on")) {
+									chaintimer.addChannel(message.getChannelReceiver());
+									message.reply(new MarkdownBuilder("사슬군도타이머 활성화").getMessage());
+								} else if (chaintimer.isExistChannel(message.getChannelReceiver())
+										&& innermessage.substring(9).contains("off")) {
+									chaintimer.delChannel(message.getChannelReceiver());
+									message.reply(new MarkdownBuilder("사슬군도타이머 비활성화").getMessage());
 								}
 							} else if(innermessage.startsWith("!수수료")) {
 								Price price = new Price(innermessage.substring(5), true);

@@ -67,6 +67,54 @@ public class BotDB {
 
 		return result;
 	}
+	
+	public ArrayList<String> getChainTimerIdfromDB() {
+		ArrayList<String> results = new ArrayList();
+		try {
+			ResultSet rs = statement.executeQuery("select * from chaintimer");
+			while (rs.next()) {
+				results.add(rs.getString("id"));
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			new Logger(e);
+		}
+
+		return results;
+	}
+
+	public boolean addChainTimerId(String id) {
+		boolean result = false;
+		try {
+			ResultSet rs = statement.executeQuery("select id = '" + id + "' from chaintimer");
+			if (!rs.next()) {
+				statement.execute("insert into chaintimer (id) values ('" + id + "');");
+			}
+			result = true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			new Logger(e);
+		}
+
+		return result;
+
+	}
+
+	public boolean delChainTimerId(String id) {
+		boolean result = false;
+		try {
+			statement.execute("delete from chaintimer where id = '" + id + "';");
+			result = true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			new Logger(e);
+		}
+
+		return result;
+	}
 
 	private static void makeDB() {
 		// TODO Auto-generated method stub
@@ -79,6 +127,7 @@ public class BotDB {
 			statement.setQueryTimeout(30); // set timeout to 30 sec.
 
 			statement.executeUpdate("create table if not exists ftimer (id char(255))");
+			statement.executeUpdate("create table if not exists chaintimer (id char(255))");
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
