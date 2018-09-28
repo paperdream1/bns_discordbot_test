@@ -90,8 +90,8 @@ public class ChainTimer {
 	private void checkFTime() throws InterruptedException {
 		time = new Date();
 		
-		//2시이후 12시이전일경우
-		if(time.getHours()>1 && time.getHours() < 12) {
+		//2시이후 11시이전일경우
+		if(time.getHours()>1 && time.getHours() < 11) {
 			Thread.sleep(60*60*1000);//sleep 1hour
 			return;
 		}

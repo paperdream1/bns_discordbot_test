@@ -56,7 +56,7 @@ public class jam {
 		
 
 		
-		// 화룡타이머 선언
+		// 타이머 선언
 		final FTimer ftimer = new FTimer();
 		final ChainTimer chaintimer = new ChainTimer();
 

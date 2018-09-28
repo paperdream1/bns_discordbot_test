@@ -2,7 +2,7 @@ package info;
 
 public class MarkdownBuilder {
 	
-	StringBuilder message;
+	private StringBuilder message;
 	
 	public MarkdownBuilder() {
 		message = new StringBuilder();
