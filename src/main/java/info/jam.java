@@ -149,9 +149,9 @@ public class jam {
 
 						} else if (innermessage.equals("린녀쟝")) {
 							message.reply("기여어");
-						} else if (innermessage.equals("하이임니다") || innermessage.equals("하이입니다")
-								|| innermessage.equals("하임다") || innermessage.equals("하이")
-								|| innermessage.equals("하이하이") || innermessage.equals("안녕하세요")) {
+						} else if (innermessage.contains("하이임니다") || innermessage.contains("하이입니다")
+								|| innermessage.contains("하임다") || innermessage.contains("하이")
+								|| innermessage.contains("안녕하세요")) {
 
 							message.reply(new MarkdownBuilder(message.getAuthor().getName()).append(" 하이임니다.").getMessage());
 
