@@ -138,8 +138,11 @@ public class Shop implements Runnable {
 				}
 
 				Element item;
+				/*
 				int i = 0;
 				item = items.get(i);
+				*/
+				item = items.last();
 				if (!item.getElementsByClass("unit").isEmpty()) {
 					result += item.getElementsByClass("unit").text().replace("개당", "") + "\n";
 				} else {
