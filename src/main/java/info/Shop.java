@@ -120,8 +120,13 @@ public class Shop implements Runnable {
 			return null;
 		}
 	}
+	
 
 	public Price waitForgetMinPrice() {
+		return waitForgetMinPrice(false);
+	}
+	
+	public Price waitForgetMinPrice(boolean isMeterial) {
 		synchronized (lock) {
 			try {
 				while (this.doc == null) {
@@ -138,11 +143,11 @@ public class Shop implements Runnable {
 				}
 
 				Element item;
-				/*
-				int i = 0;
-				item = items.get(i);
-				*/
-				item = items.last();
+				if(isMeterial) {
+					item = items.last();
+				} else {
+					item = items.first();
+				}
 				if (!item.getElementsByClass("unit").isEmpty()) {
 					result += item.getElementsByClass("unit").text().replace("개당", "") + "\n";
 				} else {
@@ -159,5 +164,7 @@ public class Shop implements Runnable {
 			return new Price("0");
 		}
 	}
+	
+	
 
 }

@@ -76,7 +76,7 @@ public class jam {
 			}
 
 		});
-
+		
 		api.connect(new FutureCallback<DiscordAPI>() {
 
 			public void onSuccess(final DiscordAPI api) {

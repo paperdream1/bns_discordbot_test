@@ -45,7 +45,7 @@ public class Meterial implements Runnable{
 			}
 			
 			for (int i = 0; i < meterialName.length; i++) {
-				itemList.add(new MeterialItem(meterialName[i], searchList.get(i).waitForgetMinPrice().toString()));
+				itemList.add(new MeterialItem(meterialName[i], searchList.get(i).waitForgetMinPrice(true).toString()));
 			}
 			lock.notifyAll();
 			
