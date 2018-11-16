@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Logger {
 	
-	final String LOG_PATH = "./Log/";
+	//final String LOG_PATH = "./Log/";
 	
 	Scanner in;
 	PrintWriter out;
@@ -16,7 +16,7 @@ public class Logger {
 	public Logger(Exception e) {
 		date = new Date();
 		try {
-			out = new PrintWriter(LOG_PATH + getDateFormat() + ".log");
+			out = new PrintWriter(getDateFormat() + ".log");
 			out.println(e.getMessage());
 			out.println(e.getStackTrace());
 			out.close();
@@ -29,7 +29,7 @@ public class Logger {
 	}
 	
 	private String getDateFormat() {
-		return String.format("%tY-%<tm-%<td %<tH:%<tM:%<tS", date);
+		return String.format("%tY_%<tm_%<td %<tH:%<tM:%<tS", date);
 	}
 	
 
