@@ -53,6 +53,18 @@ public class BotDB {
 		return result;
 
 	}
+	
+	public boolean isExisFTimerId(String id) {
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery("select id = '" + id + "' from ftimer");
+			return rs.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 	public boolean delFTimerId(String id) {
 		ResultSet rs;
@@ -104,6 +116,18 @@ public class BotDB {
 
 		return result;
 
+	}
+	
+	public boolean isExistChainTimerId(String id) {
+		ResultSet rs;
+		try {
+			rs = statement.executeQuery("select id = '" + id + "' from chaintimer");
+			return rs.next();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public boolean delChainTimerId(String id) {

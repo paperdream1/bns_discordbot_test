@@ -64,7 +64,8 @@ public class FTimer {
 	}
 
 	public boolean isExistChannel(Channel channel) {
-		return this.channels.contains(channel);
+		//return this.channels.contains(channel);
+		return botdb.isExisFTimerId(channel.getId());
 	}
 
 	public void setMessage(Message message) {

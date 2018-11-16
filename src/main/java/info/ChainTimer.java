@@ -63,7 +63,8 @@ public class ChainTimer {
 	}
 
 	public boolean isExistChannel(Channel channel) {
-		return this.channels.contains(channel);
+		//return this.channels.contains(channel);
+		return botdb.isExistChainTimerId(channel.getId());
 	}
 
 	public void setMessage(Message message) {
