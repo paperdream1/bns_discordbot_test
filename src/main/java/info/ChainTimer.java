@@ -46,14 +46,20 @@ public class ChainTimer {
 		this.channels.addAll(channels);
 	}
 
-	public void addChannel(Channel channel) {
-		botdb.addChainTimerId(channel.getId());
-		this.channels.add(channel);
+	public boolean addChannel(Channel channel) {
+		if(botdb.addChainTimerId(channel.getId())) {
+			this.channels.add(channel);
+			return true;
+		}
+		return false;
 	}
 
-	public void delChannel(Channel channel) {
-		botdb.delChainTimerId(channel.getId());
-		this.channels.remove(channel);
+	public boolean delChannel(Channel channel) {
+		if(botdb.delChainTimerId(channel.getId())) {
+			this.channels.remove(channel);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isExistChannel(Channel channel) {

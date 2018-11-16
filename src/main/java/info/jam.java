@@ -123,22 +123,26 @@ public class jam {
 							} else if (innermessage.startsWith("!화룡타이머")) {
 								if (!ftimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(7).contains("on")) {
-									ftimer.addChannel(message.getChannelReceiver());
-									message.reply(new MarkdownBuilder("화룡타이머 활성화").getMessage());
+									if(ftimer.addChannel(message.getChannelReceiver())) {
+										message.reply(new MarkdownBuilder("화룡타이머 활성화").getMessage());
+									}
 								} else if (ftimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(7).contains("off")) {
-									ftimer.delChannel(message.getChannelReceiver());
-									message.reply(new MarkdownBuilder("화룡타이머 비활성화").getMessage());
+									if(ftimer.delChannel(message.getChannelReceiver())) {
+										message.reply(new MarkdownBuilder("화룡타이머 비활성화").getMessage());
+									}
 								}
 							} else if (innermessage.startsWith("!사슬군도타이머")) {
 								if (!chaintimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(9).contains("on")) {
-									chaintimer.addChannel(message.getChannelReceiver());
-									message.reply(new MarkdownBuilder("사슬군도타이머 활성화").getMessage());
+									if(chaintimer.addChannel(message.getChannelReceiver())) {
+										message.reply(new MarkdownBuilder("사슬군도타이머 활성화").getMessage());
+									}
 								} else if (chaintimer.isExistChannel(message.getChannelReceiver())
 										&& innermessage.substring(9).contains("off")) {
-									chaintimer.delChannel(message.getChannelReceiver());
-									message.reply(new MarkdownBuilder("사슬군도타이머 비활성화").getMessage());
+									if(chaintimer.delChannel(message.getChannelReceiver())) {
+										message.reply(new MarkdownBuilder("사슬군도타이머 비활성화").getMessage());
+									}
 								}
 							} else if(innermessage.startsWith("!수수료")) {
 								Price price = new Price(innermessage.substring(5), true);

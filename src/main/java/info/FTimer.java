@@ -47,14 +47,20 @@ public class FTimer {
 		this.channels.addAll(channels);
 	}
 
-	public void addChannel(Channel channel) {
-		botdb.addFTimerId(channel.getId());
-		this.channels.add(channel);
+	public boolean addChannel(Channel channel) {
+		if(botdb.addFTimerId(channel.getId())) {
+			this.channels.add(channel);
+			return true;
+		}
+		return false;
 	}
 
-	public void delChannel(Channel channel) {
-		botdb.delFTimerId(channel.getId());
-		this.channels.remove(channel);
+	public boolean delChannel(Channel channel) {
+		if(botdb.delFTimerId(channel.getId())) {
+			this.channels.remove(channel);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isExistChannel(Channel channel) {

@@ -55,9 +55,13 @@ public class BotDB {
 	}
 
 	public boolean delFTimerId(String id) {
+		ResultSet rs;
 		boolean result = false;
 		try {
+			do {
 			statement.execute("delete from ftimer where id = '" + id + "';");
+			rs = statement.executeQuery("select id = '" + id + "' from ftimer");
+			} while (rs.next());
 			result = true;
 
 		} catch (SQLException e) {
@@ -103,9 +107,13 @@ public class BotDB {
 	}
 
 	public boolean delChainTimerId(String id) {
+		ResultSet rs;
 		boolean result = false;
 		try {
+			do {
 			statement.execute("delete from chaintimer where id = '" + id + "';");
+			rs = statement.executeQuery("select id = '" + id + "' from chaintimer");
+			} while (rs.next());
 			result = true;
 
 		} catch (SQLException e) {
